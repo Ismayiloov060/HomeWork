@@ -1,6 +1,19 @@
-@ADY_API_HostAddress = http://localhost:5140
+@ADY_API_HostAddress = http://localhost:7111
 
-GET {{ADY_API_HostAddress}}/weatherforecast/
+
+GET {{ADY_API_HostAddress}}/api/train
 Accept: application/json
 
-###
+
+GET {{ADY_API_HostAddress}}/api/train/1
+
+POST {{ADY_API_HostAddress}}/api/ticket
+Content-Type: application/json
+
+{
+  "passengerName": "John Doe",
+  "trainId": 1,
+  "departureStation": "Station A",
+  "arrivalStation": "Station B",
+  "departureTime": "2024-10-22T08:00:00"
+}

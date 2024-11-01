@@ -69,7 +69,7 @@ body {
 }
 
 .table td:hover {
-  background-color:#303032;
+  background-color:#d2cece;
   transform: scale(1.02);
 }
 

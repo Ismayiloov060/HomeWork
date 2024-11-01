@@ -7,7 +7,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ITrainService, TrainService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddControllers();
-
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+    
 var app = builder.Build();
 app.UseRouting();
 app.UseEndpoints(endpoints =>
