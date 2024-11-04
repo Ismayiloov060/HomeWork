@@ -5,18 +5,15 @@ import { LiaTimesSolid } from 'react-icons/lia';
 import { FaBars, FaPhone } from 'react-icons/fa6';
 import Theme from '../theme/Theme';
 import './Navbar.css'; 
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
-
     const [open, setOpen] = React.useState(false);
+    const { t, i18n } = useTranslation();
 
-    const navLinks = [
-        { href: "/", label: "Home" },
-        { href: "/train", label: "Train" },
-        { href: "/services", label: "Services" },
-        { href: "/about", label: "About" }
-        
-    ];
+    const changeLanguage = (language) => {
+        i18n.changeLanguage(language);
+    };
 
     const handleClick = () => {
         setOpen(!open);
@@ -38,14 +35,41 @@ const Navbar = () => {
 
             <div className={`navbar-links ${open ? 'open' : ''}`}>
                 <ul>
-                    {navLinks.map((link, index) => (
-                        <li key={index}>
-                            <Link to={link.href} onClick={handleClose} className="navbar-link">
-                                {link.label}
-                            </Link>
-                        </li>
-                    ))}
+                    <li>
+                        <Link to="/" onClick={handleClose} className="navbar-link">
+                            {t('home')}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/train" onClick={handleClose} className="navbar-link">
+                            {t('train')}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/services" onClick={handleClose} className="navbar-link">
+                            {t('services')}
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/about" onClick={handleClose} className="navbar-link">
+                        
+                            {t("about")}
+                            
+                        </Link>
+                    </li>
+                
                 </ul>
+
+                <div className='navbar-link'>
+                    
+                    <button onClick={() => changeLanguage('en')}>En</button>
+                    
+                </div>
+                
+                <div className='navbar-link'>
+                    <button onClick={() => changeLanguage('ru')}>Ru</button>
+                </div>
+                
 
                 <div className="navbar-contact">
                     <div className="contact-box">
