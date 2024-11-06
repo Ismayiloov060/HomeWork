@@ -174,3 +174,50 @@
     font-size: 1.75rem;
 }
 
+.language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.language-button {
+    background-color: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s ease;
+    position: relative;
+}
+
+.language-button::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    border-radius: 50%;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: left 0.3s ease;
+}
+
+.language-button:hover {
+    background-color: #5b1b8e;
+    transform: scale(1.05);
+}
+
+.language-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.4);
+}
+
+.language-button.active::after {
+    left: calc(100% - 10px);
+}
+
+.language-toggle {
+    margin-left: 7rem;
+}

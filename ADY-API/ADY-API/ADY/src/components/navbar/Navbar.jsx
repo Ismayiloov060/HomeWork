@@ -60,22 +60,18 @@ const Navbar = () => {
                 
                 </ul>
 
-                <div className='navbar-link'>
-                    
-                    <button onClick={() => changeLanguage('en')}>En</button>
-                    
-                </div>
-                
-                <div className='navbar-link'>
-                    <button onClick={() => changeLanguage('ru')}>Ru</button>
-                </div>
-                
+                <div className='navbar-link language-toggle'>
+    <button  onClick={() => changeLanguage('en')} className="language-button ">EN</button>
+    <button onClick={() => changeLanguage('ru')} className="language-button">RU</button>
+</div>
+
 
                 <div className="navbar-contact">
                     <div className="contact-box">
                         <FaPhone className="contact-icon" />
                         <div className="contact-info">
-                            <p className="help-text">Need Help?</p>
+                            <p className="help-text">{t("help")}</p>
+                             
                             <p className="phone-number">+994 99 907 77 07</p>
                         </div>
                     </div>
