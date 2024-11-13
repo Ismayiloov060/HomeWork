@@ -3,8 +3,15 @@ import { FaMapPin } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import Logo from "../../assets/1.webp";
 import './Footer.css'; 
+import { useTranslation } from 'react-i18next';
+
 
 const Footer = () => {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (language) => {
+      i18n.changeLanguage(language);
+  };
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -13,38 +20,37 @@ const Footer = () => {
             <img src={Logo} alt="logo" className="footer-logo-img" />
           </Link>
           <p className="footer-description">
-          Plan your journeys with comfort! We offer quick ticket booking throughout the country.
+          {t("plan")}
           </p>
         </div>
 
         <div className="footer-links">
-          <h1 className="footer-heading">About Us</h1>
+          <h1 className="footer-heading">{t("about us")}</h1>
           <ul className="footer-list">
-            <li><Link to="#" className='footer-link'>About Us</Link></li>
-            <li><Link to="#" className='footer-link'>Contact Us</Link></li>
-            <li><Link to="#" className='footer-link'>Privacy Policy</Link></li>
-            <li><Link to="#" className='footer-link'>Terms and Conditions</Link></li>
+            <li><Link to="#" className='footer-link'>{t("about us")}</Link></li>
+            <li><Link to="#" className='footer-link'>{t("contact us")}</Link></li>
+            <li><Link to="#" className='footer-link'>{t("privacy policy")}</Link></li>
+            <li><Link to="#" className='footer-link'>{t("terms and conditions")}</Link></li>
           </ul>
         </div>
 
         <div className="footer-links">
-          <h1 className="footer-heading">Services</h1>
+          <h1 className="footer-heading">{t("services")}</h1>
           <ul className="footer-list">
-            <li><Link to="#" className='footer-link'>Safety Guarantee</Link></li>
-            <li><Link to="#" className='footer-link'>FAQ & Support</Link></li>
-            <li><Link to="#" className='footer-link'>Luxury Buses</Link></li>
-            <li><Link to="#" className='footer-link'>Enough Facilities</Link></li>
+            <li><Link to="#" className='footer-link'>{t("safety guarantee")}</Link></li>
+            <li><Link to="#" className='footer-link'>{t("faq & support")}</Link></li>
+            <li><Link to="#" className='footer-link'>{t("luxury train")}</Link></li>
           </ul>
         </div>
 
         <div className="footer-contact">
-          <h1 className="footer-heading">Get In Touch</h1>
+          <h1 className="footer-heading">{t("get in touch")}</h1>
           <div className="footer-contact-info">
             <div className="footer-contact-item">
               <FaMapPin className='footer-contact-icon' />
               <div className="footer-contact-details">
-                <p className="footer-contact-label">Adress</p>
-                <p className="footer-contact-address">Baku - 28 May</p>
+                <p className="footer-contact-label">{t("adress")}</p>
+                <p className="footer-contact-address">{t("baku - 28 may")}</p>
               </div>
             </div>
           </div>

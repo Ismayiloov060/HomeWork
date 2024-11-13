@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import './About.css'; // стили для анимации текста
+import { useTranslation } from 'react-i18next';
+import './About.css';
 
 const About = ({ theme }) => {
+  const { t } = useTranslation();
   const isDarkTheme = theme === 'dark';
 
   const styles = {
@@ -9,7 +11,6 @@ const About = ({ theme }) => {
       padding: '40px',
       fontFamily: 'Arial, sans-serif',
       backgroundColor: 'transparent',
-      
       marginTop: '70px',
       display: 'flex',
       flexDirection: 'column',
@@ -22,12 +23,11 @@ const About = ({ theme }) => {
       textAlign: 'center',
       marginBottom: '20px',
       color: '#6a0dad',
-      animation: 'fadeIn 1.5s ease-in-out', // добавление анимации
+      animation: 'fadeIn 1.5s ease-in-out',
     },
     section: {
       margin: '20px 0',
       lineHeight: '1.6',
-      background: '',
       padding: '20px',
       borderRadius: '8px',
       boxShadow: '0 2px 8px rgba(0, 0, 0, 1)',
@@ -40,7 +40,7 @@ const About = ({ theme }) => {
     advantage: {
       padding: '20px',
       borderRadius: '8px',
-      boxShadow:  '0 2px 8px rgba(0, 0, 0, 1)',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 1)',
       transition: 'transform 0.2s, box-shadow 0.2s',
       cursor: 'pointer',
     },
@@ -65,19 +65,18 @@ const About = ({ theme }) => {
     trainTypeCard: {
       padding: '20px',
       borderRadius: '8px',
-      
       boxShadow: '0 2px 8px rgba(0, 0, 0, 1)',
       transition: 'transform 0.2s, box-shadow 0.2s',
       cursor: 'pointer',
     },
     trainTypeHover: {
       transform: 'scale(1.05)',
-      boxShadow:'0 4px 16px rgba(0, 0, 0, 1)',
+      boxShadow: '0 4px 16px rgba(0, 0, 0, 1)',
     },
     trainTypeTitle: {
       fontSize: '1.5rem',
       margin: '10px 0',
-      color: '#6a0dad'
+      color: '#6a0dad',
     },
     trainTypeDescription: {
       marginTop: '10px',
@@ -89,23 +88,13 @@ const About = ({ theme }) => {
 
   return (
     <section style={styles.container}>
-      <h1 style={styles.title}>Meet the Trains</h1>
+      <h1 style={styles.title}>{t("meet the trains")}</h1>
       <div style={styles.section}>
-        <p>
-          Traveling by train is not just a means to reach your destination; it’s an experience in itself. Imagine 
-          gliding through picturesque landscapes, feeling the gentle sway of the carriage, and enjoying the freedom 
-          to move around as you please. With trains, you can escape the hustle of city traffic and immerse yourself 
-          in the journey.
-        </p>
-        <p>
-          Our extensive train network offers a wide range of routes, from local services to long-distance journeys, 
-          ensuring a comfortable and safe travel experience for everyone. Discover why trains are becoming an increasingly 
-          popular choice for modern travelers.
-        </p>
+        <p>{t("text about1")}</p>
       </div>
-      <h2 style={styles.title}>Why Choose Trains?</h2>
+      <h2 style={styles.title}>{t("why choose trains?")}</h2>
       <div style={styles.advantageContainer}>
-        {['Eco-Friendliness', 'Comfort', 'Safety'].map((title, index) => (
+        {['eco-friendliness', 'comfort', 'safety'].map((key, index) => (
           <div
             key={index}
             style={{
@@ -115,30 +104,17 @@ const About = ({ theme }) => {
             onMouseEnter={() => setHoveredAdvantage(index)}
             onMouseLeave={() => setHoveredAdvantage(null)}
           >
-            <h3 style={styles.advantageTitle}>{title}</h3>
-            <p style={styles.advantageText}>
-              {title === 'Eco-Friendliness' && 'Trains emit less carbon per passenger, making them one of the most eco-friendly modes of transport.'}
-              {title === 'Comfort' && 'Modern trains offer comfortable seating, the ability to move around the carriage, and even onboard restaurants.'}
-              {title === 'Safety' && 'Trains are among the safest forms of transport due to strict safety standards.'}
-            </p>
+            <h3 style={styles.advantageTitle}>{t(key)}</h3>
+            <p style={styles.advantageText}>{t(`text about${index + 2}`)}</p>
           </div>
         ))}
       </div>
-      <h2 style={styles.title}>Types of Trains</h2>
+      <h2 style={styles.title}>{t("types of trains")}</h2>
       <div style={styles.trainTypeContainer}>
         {[
-          {
-            title: 'Apsheronskaya Ring',
-            description: 'A local service connecting various cities around the Apsheron Peninsula.',
-          },
-          {
-            title: 'Intercity Trains',
-            description: 'Long-distance services connecting major cities for comfortable travel.',
-          },
-          {
-            title: 'High-Speed Trains',
-            description: 'Offering fast and convenient travel between major urban centers.',
-          },
+          { title: t("apsheronskaya ring"), description: t("text about5") },
+          { title: t("intercity trains"), description: t("text about6") },
+          { title: t("high-speed trains"), description: t("text about7") },
         ].map((trainType, index) => (
           <div
             key={index}

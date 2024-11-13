@@ -6,6 +6,9 @@ import Seat from "../seat/Seat";
 import trainImage6 from '../../assets/train6.png';
 import trainImage8 from '../../assets/train8.png';
 import trainImage2 from '../../assets/train2.png';
+import { useTranslation } from 'react-i18next';
+
+
 
 const trainData = [
     {
@@ -37,10 +40,17 @@ const trainData = [
 const Detail = () => {
     const [selectedTrain, setSelectedTrain] = useState(trainData[0]);
 
+    const { t, i18n } = useTranslation();
+
+  const changeLanguage = (language) => {
+      i18n.changeLanguage(language);
+  };
+
     return (
+        
         <div className='w-full lg:px-26 md:px-16 sm:px-7 px-4 mt-[13ch] mb-[10ch]'>
             <div className="mt-10">
-                <h2 className="text-2xl font-bold">Choose a Train</h2>
+                <h2 className="text-2xl font-bold">{t("choose a train")}</h2>
                 <div className="grid grid-cols-3 gap-6 mt-4">
                     {trainData.map(train => (
                         <div 
@@ -102,7 +112,7 @@ const Detail = () => {
                             to={'/train/train-details/checkout'} 
                             className='w-fit bg-violet-600 text-neutral-50 font-medium text-base px-6 py-2 rounded-md hover:bg-violet-700 ease-in-out duration-300 ml-8' 
                         >
-                            Buy
+                            {t("buy")}
                         </Link>                       
                     </div>
                 </div>
