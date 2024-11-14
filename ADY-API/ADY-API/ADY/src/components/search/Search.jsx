@@ -1,32 +1,65 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTrip } from '../../context/TripContext';
 
-const Search = () => {
-    const { t, i18n } = useTranslation();
+const Search = ({ tripType }) => {
+    const { t } = useTranslation();
+    const { updateTrip } = useTrip();
     const [from, setFrom] = useState('');
     const [to, setTo] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('');
 
-    const locations = [
-        { value: "location1", label: t("baku") },
-        { value: "location2", label: t("ucar") },
-        { value: "location3", label: t("agdas") },
-        { value: "location4", label: t("gence") },
-        { value: "location5", label: t("tovuz") },
-        { value: "location6", label: t("agstafa") }
+    const absheronLocations = [
+        { value: "Baku", label: t("baku") },
+        { value: "Sumqayit", label: t("sumqayit") },
+        { value: "Novxani", label: t("novxani") },
+        { value: "Goredil", label: t("goredil") },
+        { value: "Pirsagi", label: t("pirsagi") },
+        { value: "Koroglu", label: t("koroglu") }
     ];
 
+    const intercityLocations = [
+        { value: "Baku", label: t("baku") },
+        { value: "Ucar", label: t("ucar") },
+        { value: "Agdas", label: t("agdas") },
+        { value: "Gence", label: t("gence") },
+        { value: "Tovuz", label: t("tovuz") },
+        { value: "Agstafa", label: t("agstafa") }
+    ];
+
+    const locations = tripType === "absheron" ? absheronLocations : intercityLocations;
+
     const handleFromChange = (event) => {
-        setFrom(event.target.value);
-        if (event.target.value === to) {
+        const selectedFrom = event.target.value;
+        setFrom(selectedFrom);
+        updateTrip('from', selectedFrom);
+        if (selectedFrom === to) {
             setTo('');
+            updateTrip('to', '');
         }
     };
 
     const handleToChange = (event) => {
-        setTo(event.target.value);
-        if (event.target.value === from) {
+        const selectedTo = event.target.value;
+        setTo(selectedTo);
+        updateTrip('to', selectedTo);
+        if (selectedTo === from) {
             setFrom('');
+            updateTrip('from', '');
         }
+    };
+
+    const handleDateChange = (event) => {
+        const selectedDate = event.target.value;
+        setDate(selectedDate);
+        updateTrip('date', selectedDate);
+    };
+
+    const handleTimeChange = (event) => {
+        const selectedTime = event.target.value;
+        setTime(selectedTime);
+        updateTrip('time', selectedTime);
     };
 
     return (
@@ -81,19 +114,33 @@ const Search = () => {
                         <label htmlFor="date" className="block mb-2 font-semibold">
                             {t("choose date")}
                         </label>
-                        <input type="date" id="date" name="date" className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900" />
+                        <input 
+                            type="date" 
+                            id="date" 
+                            name="date" 
+                            className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900"
+                            value={date}
+                            onChange={handleDateChange}
+                        />
                     </div>
 
                     <div>
                         <label htmlFor="time" className="block mb-2 font-semibold">
                             {t("choose time")}
                         </label>
-                        <input type="time" id="time" name="time" className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900" />
+                        <input 
+                            type="time" 
+                            id="time" 
+                            name="time" 
+                            className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900"
+                            value={time}
+                            onChange={handleTimeChange}
+                        />
                     </div>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default Search;

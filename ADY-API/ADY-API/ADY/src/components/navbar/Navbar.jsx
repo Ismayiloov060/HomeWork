@@ -42,12 +42,12 @@ const Navbar = () => {
                     </li>
                     <li>
                         <Link to="/train" onClick={handleClose} className="navbar-link">
-                            {t('train')}
+                            {t('category')}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/services" onClick={handleClose} className="navbar-link">
-                            {t('services')}
+                        <Link to="/tikets" onClick={handleClose} className="navbar-link">
+                            {t('tiсkets')}
                         </Link>
                     </li>
                     <li>
