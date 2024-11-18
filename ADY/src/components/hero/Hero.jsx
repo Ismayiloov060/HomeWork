@@ -1,8 +1,9 @@
 import React from 'react';
-import Train2 from "../../assets/ADY2.png";
+import Train2 from "../../assets/ADY5.png";
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+
 const Hero = () => {
     
     const { t, i18n } = useTranslation();
@@ -10,6 +11,7 @@ const Hero = () => {
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
     };
+
     const imageVariants = {
         initial: {
             x: "100%",
@@ -26,7 +28,7 @@ const Hero = () => {
     };
 
     return (
-        <div className='w-full h-[calc(100vh-8ch)] lg:px-28 md:px-16 sm:px-7  mt-[8ch] flex items-center justify-center flex-col hero relative'>
+        <div className='w-full h-[calc(100vh-8ch)] lg:px-28 md:px-16 sm:px-7 mt-[8ch] flex items-center justify-center flex-col hero relative'>
             <div className="flex-1 w-full flex flex-col lg:flex-row items-stretch justify-between gap-5 pb-5">
                 <motion.div className="lg:w-[35%] w-full h-auto rounded-md flex justify-center flex-col space-y-8 lg:space-y-4"
                     initial={{ opacity: 0, y: -10 }}
@@ -44,19 +46,20 @@ const Hero = () => {
                             transition={{ duration: 2, ease: 'linear', delay: 0.4 }}
                         >
                              {t("reserve1")}
-                            <span className="text-violet-600 tracking-wider"> {t("reserve3")}</span>
+                            <span style={{ color: '#1d5c87' }} className="tracking-wider">
+                                {t("reserve3")}
+                            </span>
                         </motion.h1>
                         <motion.p className="text-sm sm:text-lg font-normal text-neutral-300 line-clamp-4 text-ellipsis text-center md:text-left"
                             initial={{ opacity: 0, y: -10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 2, ease: 'linear', delay: 0.6 }}
                         >
-                        
-                        {t("text1")}
-                               </motion.p>
+                            {t("text1")}
+                        </motion.p>
                     </motion.div>
 
-                    <Link to={'/train'} className='w-fit bg-violet-600 text neutral-50 font-medium text-base px-6 py-3 rounded-md hover:bg-violet-700 ease-in-out duration-300 '>
+                    <Link to={'/train'}  style={{ background: '#1d5c87' }} className='w-fit text neutral-50 font-medium text-base px-6 py-3 rounded-md  text-white ease-in-out duration-300'>
                         {t("reserve2")}
                     </Link>
                 </motion.div>

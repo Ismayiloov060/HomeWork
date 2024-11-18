@@ -33,8 +33,8 @@ const Offer = () => {
   return (
     <div className='w-full lg:px-28 md:px-16 sm:px-7 px-4 mb-[8ch]'>
       <div className="w-full items-center flex justify-between">
-        <h1 className="text-2xl font-medium mb-6">{t('offer')}</h1>
-        <Link to={"/offer"} className='text-violet-600'>{t('view all')}</Link>
+        <h1 className="text-2xl font-medium mb-6 dark:text-white text-black">{t('offer')}</h1>
+     
       </div>
       <div className="grid grid-cols-2 gap-16">
         {offers.map((offer, index) => (
@@ -45,14 +45,14 @@ const Offer = () => {
                 {t(offer.descriptionKey)}
               </h1>
               <div className="flex items-center gap-x-5">
-                <div className="w-fit border border-dashed px-4 py-1 border-neutral-300 dark:border-neutral-800 bg-violet-500/10 dark:bg-violet-800/5 rounded-md p-3">
+                <div className="w-fit border border-dashed px-4 py-1 border-neutral-300 dark:border-neutral-800 bg-[#1d5c87]/10 dark:bg-[#1d5c87]/5 rounded-md p-3">
                   {copied === offer.code ? (
                     <span className="text-green-600">{t('copied')}</span>
                   ) : (
-                    <span className="text-violet-600">{offer.code}</span>
+                    <span className="text-[#1d5c87]">{offer.code}</span>
                   )}
                 </div>
-                <button onClick={() => handleCopy(offer.code)} className="text-xl text-violet-600">
+                <button onClick={() => handleCopy(offer.code)} className="text-xl text-[#1d5c87]">
                   <FaCopy />
                 </button>
               </div>

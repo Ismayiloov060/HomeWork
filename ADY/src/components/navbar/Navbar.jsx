@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from "../../assets/1.webp";
+import Logo from "../../assets/ADY6.png";
 import { LiaTimesSolid } from 'react-icons/lia';
 import { FaBars, FaPhone, FaUser } from 'react-icons/fa6';
 import Theme from '../theme/Theme';

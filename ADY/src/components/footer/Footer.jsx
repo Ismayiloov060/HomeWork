@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaMapPin } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-import Logo from "../../assets/1.webp";
+import Logo from "../../assets/ADY7.png";
 import './Footer.css'; 
 import { useTranslation } from 'react-i18next';
 

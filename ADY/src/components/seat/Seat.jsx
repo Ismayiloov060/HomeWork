@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import React from 'react'
-import { GiSteeringWheel } from 'react-icons/gi'
-import { MdOutlineChair } from 'react-icons/md'
+import { useState, useEffect } from 'react';
+import React from 'react';
+import { GiSteeringWheel } from 'react-icons/gi';
+import { MdOutlineChair } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
+import { useTrip } from '../../context/TripContext';
 
 const Seat = ({ seatNumber, isSelected, isBooked, onClick }) => {
     return (
         <MdOutlineChair
             className={`text-3xl -rotate-90 cursor-pointer 
-            ${isSelected ? 'text-violet-600' : isBooked ? 'text-red-600' : 'text-neutral-600'}`}
+            ${isSelected ? 'text-[#1d5c87]' : 'text-neutral-600'}`}
             onClick={isBooked ? null : onClick}
         />
     );
-}
+};
 
 const TrainSeatLayout = () => {
     const totalSeats = 41;
     const [selectedSeats, setSelectedSeats] = useState([]);
-    const [bookedSeats] = useState([5, 7, 12, 15, 19, 25, 30, 2, 18, 27, 35, 39, 32, 4, 7, 8, 23, 27, 29]); 
+    const [bookedSeats] = useState([]);
+    const { trip, updateTrip } = useTrip();
+    const { t } = useTranslation();
+
+    useEffect(() => {
+        if (selectedSeats.length > 0) {
+            updateTripSeats();
+        }
+    }, [selectedSeats]);
 
     const handleSeatClick = (seatNumber) => {
         if (selectedSeats.includes(seatNumber)) {
             setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
         } else {
-            if (selectedSeats.length < 10) {
+            if (selectedSeats.length < 5) {
                 setSelectedSeats([...selectedSeats, seatNumber]);
             } else {
-                alert("You can only select 10 seats");
+                alert("You can only select 5 seats");
             }
         }
-    }
+    };
 
     const renderSeats = () => {
         let seats = [];
@@ -47,7 +56,10 @@ const TrainSeatLayout = () => {
         return seats;
     };
 
-    const { t } = useTranslation();
+    const updateTripSeats = () => {
+        updateTrip('seats', selectedSeats);
+        updateTrip('totalPrice', selectedSeats.length * 15);
+    };
 
     return (
         <div className='space-y-5'>
@@ -59,7 +71,7 @@ const TrainSeatLayout = () => {
                 <div className="flex-1 w-full flex">
                     <div className="w-full flex-1 flex gap-x-4 items-stretch">
                         <div className="w-10 h-full border-r-2 border-dashed border-neutral-300 dark:border-neutral-800">
-                            <GiSteeringWheel className='text-3xl mr-1 mt-6 text-violet-600 -rotate-90' />
+                            <GiSteeringWheel className='text-3xl mr-1 mt-6 text-[#1d5c87] -rotate-90' />
                         </div>
 
                         <div className="flex flex-col items-center">
@@ -100,7 +112,7 @@ const TrainSeatLayout = () => {
                     </div>
 
                     <div className="flex items-center gap-x-2">
-                        <MdOutlineChair className='text-lg text-violet-500 -rotate-90' />
+                        <MdOutlineChair className='text-lg text-[#1d5c87] -rotate-90' />
                         <p className="text-neutral-900 dark:text-neutral-200 text-sm font-normal">
                             - {t("selected")}
                         </p>
@@ -115,7 +127,7 @@ const TrainSeatLayout = () => {
                     </h3>
                     <div className="flex flex-wrap">
                         {selectedSeats.map(seat => (
-                            <div key={seat} className="w-10 h-10 rounded-md m-1.5 text-lg font-medium bg-violet-600/30 flex items-center justify-center">
+                            <div key={seat} className="w-10 h-10 rounded-md m-1.5 text-lg font-medium bg-[#1d5c87] flex items-center justify-center">
                                 {seat}
                             </div>
                         ))}

@@ -22,7 +22,7 @@ const About = ({ theme }) => {
       fontWeight: 'bold',
       textAlign: 'center',
       marginBottom: '20px',
-      color: '#6a0dad',
+      color: '#1d5c87',
       animation: 'fadeIn 1.5s ease-in-out',
     },
     section: {
@@ -51,7 +51,7 @@ const About = ({ theme }) => {
     advantageTitle: {
       fontSize: '1.5rem',
       margin: '0 0 10px 0',
-      color: '#6a0dad',
+      color: '#1d5c87',
     },
     advantageText: {
       margin: '0',
@@ -76,7 +76,7 @@ const About = ({ theme }) => {
     trainTypeTitle: {
       fontSize: '1.5rem',
       margin: '10px 0',
-      color: '#6a0dad',
+      color: '#1d5c87',
     },
     trainTypeDescription: {
       marginTop: '10px',

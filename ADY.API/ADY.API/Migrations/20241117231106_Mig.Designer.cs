@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ADY.API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20241116202135_initialmigration")]
-    partial class initialmigration
+    [Migration("20241117231106_Mig")]
+    partial class Mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,11 @@ namespace ADY.API.Migrations
 
             modelBuilder.Entity("ADY.API.Models.User", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");

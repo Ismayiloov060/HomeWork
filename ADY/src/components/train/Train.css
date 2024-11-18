@@ -5,10 +5,14 @@
     margin-bottom: 15ch;
     justify-content: center;
     margin-left: 0;
-    margin-top: 8ch;
+    margin-top: 10ch; 
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.container-category .dark {
+    background: black;
 }
 
 @media (min-width: 640px) {
@@ -37,13 +41,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 3rem;
 }
 
 .title-category {
-    font-size: 1.6rem;
-    font-weight: bold;
+    font-size: 2rem; 
+    font-weight: 700;
     margin-bottom: 1rem;
-    color: #333;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .title-category {
+    color: white;
 }
 
 .grid-category {
@@ -129,7 +140,7 @@
 }
 
 .name-train {
-    font-size: 1.6rem;
+    font-size: 1.4rem; 
     font-weight: bold;
     text-align: center;
     color: #f9fafb;
@@ -142,7 +153,7 @@
 .info-button-absheron, .info-button-regional {
     margin-top: 1rem;
     padding: 0.4rem 0.8rem;
-    background-color: #020b26;
+    background-color: #1d5c87;
     color: white;
     border: none;
     border-radius: 50px;
@@ -157,7 +168,7 @@
 }
 
 .info-button-absheron:hover, .info-button-regional:hover {
-    background-color: #020b26;
+    background-color: #1d5c87;
     transform: scale(1.05);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
@@ -167,11 +178,7 @@
 }
 
 .dark .info-button-absheron, .dark .info-button-regional {
-    background-color: #020b26;
-}
-
-.dark .info-button-absheron:hover, .dark .info-button-regional:hover {
-    background-color: #020b26;
+    background-color: rgba(39, 39, 42, 0.4);
 }
 
 .info-text {

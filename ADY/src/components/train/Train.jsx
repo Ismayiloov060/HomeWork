@@ -49,11 +49,9 @@ const Train = () => {
                         {isAbsheronOpen ? t("hideInfo") : t("showInfo")}
                     </button>
                     <div className={`info-text ${isAbsheronOpen ? 'show' : 'hide'}`}>
-                        <p>{t("absheronTrain")}</p>
+                        <p>{t("absheron")}</p>
                         <p>
-                            Absheron Train provides a premium, comfortable ride from Baku to the surrounding regions. 
-                            The train offers spacious seats, air conditioning, and onboard amenities, ensuring a pleasant 
-                            journey for travelers.
+                        {t("text10")}
                         </p>
                     </div>
                 </div>
@@ -74,11 +72,9 @@ const Train = () => {
                         {isRegionalOpen ? t("hideInfo") : t("showInfo")}
                     </button>
                     <div className={`info-text ${isRegionalOpen ? 'show' : 'hide'}`}>
-                        <p>{t("regionalTrain")}</p>
+                        <p>{t("regional")}</p>
                         <p>
-                            The Regional Train connects major cities and regions within Azerbaijan. 
-                            It offers a reliable, fast, and comfortable service with multiple stops along the way. 
-                            With a focus on safety and customer service, the Regional Train is perfect for both business and leisure travelers.
+                        {t("text11")}
                         </p>
                     </div>
                 </div>

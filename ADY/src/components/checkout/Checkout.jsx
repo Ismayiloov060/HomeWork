@@ -4,17 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useTrip } from "../../context/TripContext";
 
 const Checkout = () => {
-  const { t } = useTranslation();
-  const { trip } = useTrip();
+  const { trip, totalPrice } = useTrip();
+  const { t } = useTranslation();  
 
   if (!trip.from || !trip.to || !trip.date || !trip.time) {
     return <div>Loading...</div>;
   }
-
-  const handlePhoneChange = (e) => {
-    const value = e.target.value;
-    e.target.value = value.replace(/\D/g, "");
-  };
 
   return (
     <div className="w-full lg:px-28 md:px-16 sm:px-7 px-4 mt-[13ch] mb-[8ch] space-y-10">
@@ -32,7 +27,7 @@ const Checkout = () => {
                 type="text"
                 id="fullname"
                 name="fullname"
-                className="w-full px-4 py-3 bg-neutral-200/60 dark:bg-neutral-900/60 border border-neutral-300 dark:border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-200"
+                className="w-full px-4 py-3 bg-neutral-200/60 dark:bg-neutral-900/60 border border-neutral-300 dark:border-neutral-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1d5c87] transition-all duration-200"
                 placeholder={t("Enter Full Name")}
               />
             </div>
@@ -46,7 +41,7 @@ const Checkout = () => {
                 id="email"
                 placeholder="e.g. gtech.official08@gmail.com"
                 name="email"
-                className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-200"
+                className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1d5c87] transition-all duration-200"
               />
               <small className="block mt-1 text-xs text-neutral-500 dark:text-neutral-600 font-normal">
                 {t("You will get your tickets via this email address.")}
@@ -63,9 +58,8 @@ const Checkout = () => {
                 name="phone"
                 inputMode="numeric"
                 pattern="[0-9]*"
-                className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all duration-200"
+                className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1d5c87] transition-all duration-200"
                 placeholder="e.g. +(994) 12-345-67-89"
-                onInput={handlePhoneChange}
               />
             </div>
           </form>
@@ -108,12 +102,32 @@ const Checkout = () => {
                 </div>
 
                 <div className="space-y-4">
+                  <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
+                    {t("selected seats")}
+                  </h6>
+                  {trip.seats.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {trip.seats.map((seat, index) => (
+                        <div
+                          key={index}
+                          className="px-3 py-1 bg-[#1d5c87] text-white rounded-md"
+                        >
+                          {seat}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>{t("no_seats_selected")}</p>
+                  )}
+                </div>
+
+                <div className="space-y-4">
                   <div className="w-full flex items-center justify-between">
                     <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
                       {t("total number of seats")}
                     </h6>
                     <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      10 
+                      {trip.seats.length || 0}
                     </h6>
                   </div>
                 </div>
@@ -124,7 +138,7 @@ const Checkout = () => {
                       {t("total amount")}
                     </h6>
                     <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      5000
+                      ${totalPrice}
                     </h6>
                   </div>
                 </div>
@@ -132,7 +146,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <button className="w-full px-8 h-12 bg-violet-600 text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-violet-700">
+          <button className="w-full px-8 h-12 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]">
             {t("proceed to pay")} <FaArrowRight />
           </button>
         </div>

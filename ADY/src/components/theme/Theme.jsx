@@ -3,10 +3,10 @@ import { FaMoon, FaSun } from 'react-icons/fa6';
 import './Theme.css';
 
 const Theme = () => {
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light'); // Default to light theme
 
     useEffect(() => {
-        document.documentElement.classList.toggle('dark', theme === 'dark');
+        document.documentElement.classList.toggle('dark', theme === 'dark'); // Toggle dark class correctly
         localStorage.setItem('theme', theme);
     }, [theme]);
 

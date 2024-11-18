@@ -31,7 +31,7 @@ body {
 
 .table th {
   background-color: transparent;
-  color: #6c3483;
+  color: #153f5c;
   padding: 14px;
   text-align: center;
   font-weight: bold;
@@ -43,7 +43,7 @@ body {
 
 .dark .table th {
   background-color: transparent;
-  color: #e0e0e0;
+  color: #ffffff;
 }
 
 .table th,

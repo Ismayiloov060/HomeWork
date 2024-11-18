@@ -9,7 +9,7 @@
 }
 
 .dark .footer {
-    border-top: 3px solid #7C3AED;
+    border-top: 3px solid #1d5c87;
 }
 
 .footer-content {
@@ -23,7 +23,7 @@
 }
 
 .footer-logo-img {
-    width: 4.5rem;
+    width: 6rem;
     object-fit: contain;
 }
 
@@ -43,7 +43,7 @@
 
 .footer-heading {
     margin-right: 10.2ch;
-    color: #7C3AED;
+    color: #1d5c87;
     font-size: 1.25rem;
     font-weight: 600;
 }
@@ -63,7 +63,7 @@
 }
 
 .footer-link:hover {
-    color: #7C3AED;
+    color: #1d5c87;
 }
 
 .footer-contact {
