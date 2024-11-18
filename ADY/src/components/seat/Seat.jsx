@@ -127,7 +127,7 @@ const TrainSeatLayout = () => {
                     </h3>
                     <div className="flex flex-wrap">
                         {selectedSeats.map(seat => (
-                            <div key={seat} className="w-10 h-10 rounded-md m-1.5 text-lg font-medium bg-[#1d5c87] flex items-center justify-center">
+                            <div key={seat} className="w-10 h-10 rounded-md m-1.5 text-lg font-medium bg-[#1d5c87] text-white flex items-center justify-center">
                                 {seat}
                             </div>
                         ))}

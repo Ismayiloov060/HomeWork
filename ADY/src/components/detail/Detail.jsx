@@ -41,7 +41,7 @@ const Detail = () => {
                         <Seat />
                     </div>
                     <div className="flex">
-                        <Link to={'/checkout'} className='w-fit bg-[#1d5c87] text-neutral-50 font-medium text-base px-6 py-2 rounded-md hover:bg-[#1d5c87] ease-in-out duration-300 ml-8'>
+                        <Link to={'/checkout'} className='w-fit bg-[#1d5c87] text-white font-medium text-base px-6 py-2 rounded-md hover:bg-[#1d5c87] ease-in-out duration-300 ml-8'>
                             {t("buy")}
                         </Link>
                     </div>

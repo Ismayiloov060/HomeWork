@@ -9,6 +9,7 @@
     "reserve2": "Купить",
     "help": "Нужна Помощь?",
     "baku": "Баку",
+    
     "selected seats": "Выбранные Места:",
     "absheron": "Апшерон",
     "novxani": "Новханы",
@@ -75,6 +76,7 @@
     "select location": "Выберите местоположение",
     "choose a seat": "Выберите Место",
     "buy": "Купить",
+    "select time": "Выберите Время",
     "selected seats:": "Выбранные места:",
     "total price:": "Общая стоимость:",
     "fast train:": "Быстрый Поезд",

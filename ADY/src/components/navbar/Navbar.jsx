@@ -1,48 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from "../../assets/ADY6.png";
-import { LiaTimesSolid } from 'react-icons/lia';
-import { FaBars, FaPhone, FaUser } from 'react-icons/fa6';
+import { FaPhone, FaUser } from 'react-icons/fa6';
 import Theme from '../theme/Theme';
 import './Navbar.css'; 
 import { useTranslation } from 'react-i18next';
 import Login from '../login/Login';
 import Register from '../register/Register';
 
-
 const Navbar = () => {
     const { t, i18n } = useTranslation();
-    const [registerOpen, setRegisterOpen] = useState(false);
+    const [registerOpen, setRegisterOpen] = useState(true); // Open Register by default
     const [loginOpen, setLoginOpen] = useState(false);
-  
 
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
     };
 
-    const handleClick = () => {
-        setOpen(!open);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    
     const openLogin = () => {
-      setLoginOpen(true);
+        setLoginOpen(true);
+        setRegisterOpen(false);
     };
-  
+
     const closeLogin = () => {
-      setLoginOpen(false);
+        setLoginOpen(false);
     };
-  
+
     const openRegister = () => {
-      setRegisterOpen(true);
+        setRegisterOpen(true);
+        setLoginOpen(false);
     };
-  
+
     const closeRegister = () => {
-      setRegisterOpen(false);
+        setRegisterOpen(false);
     };
 
     return (
@@ -51,25 +41,25 @@ const Navbar = () => {
                 <img src={Logo} alt="logo" />
             </Link>
 
-            <div className={`navbar-links ${open ? 'open' : ''}`}>
+            <div className={`navbar-links`}>
                 <ul>
                     <li>
-                        <Link to="/" onClick={handleClose} className="navbar-link">
+                        <Link to="/" onClick={() => setLoginOpen(false)} className="navbar-link">
                             {t('home')}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/train" onClick={handleClose} className="navbar-link">
+                        <Link to="/train" onClick={() => setLoginOpen(false)} className="navbar-link">
                             {t('category')}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/tikets" onClick={handleClose} className="navbar-link">
+                        <Link to="/tikets" onClick={() => setLoginOpen(false)} className="navbar-link">
                             {t('tiсkets')}
                         </Link>
                     </li>
                     <li>
-                        <Link to="/about" onClick={handleClose} className="navbar-link">
+                        <Link to="/about" onClick={() => setLoginOpen(false)} className="navbar-link">
                             {t("about")}
                         </Link>
                     </li>
@@ -91,20 +81,14 @@ const Navbar = () => {
                     <Theme />
                 </div>
 
-                <button   onClick={openLogin} className="login-button">
+                <button onClick={openLogin} className="login-button">
                     <FaUser />
                 </button>
 
                 {loginOpen && <Login onClose={closeLogin} openRegister={openRegister} />}
-
-{registerOpen && (
-  <Register onClose={closeRegister} openLogin={openLogin} />
-)}
+                {registerOpen && <Register onClose={closeRegister} openLogin={openLogin} />}
             </div>
-
-           
         </nav>
-        
     );
 };
 
