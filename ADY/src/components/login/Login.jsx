@@ -3,37 +3,62 @@ import x from "../../assets/x.svg";
 import "./Login.css";
 
 export default function Login({ onClose, openRegister }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const handleLogin = async (e) => {
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loginError, setLoginError] = useState(""); // Состояние для ошибки входа
+  const [isLoading, setIsLoading] = useState(false); // Состояние загрузки
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.email) newErrors.email = "Пожалуйста, введите email";
+    if (!formData.password) newErrors.password = "Пожалуйста, введите пароль";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoginError("");
+    if (validateForm()) {
+      setIsLoading(true); 
+      try {
+        const response = await fetch("https://localhost:7261/api/Users/Login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
-    const loginDTO = {
-      Email: email,
-      Password: password,
-    };
+        setIsLoading(false); 
 
-    try {
-      const response = await fetch("http://localhost:5000/api/Users/Login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginDTO),
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        setMessage("Успешный вход");
-        // Здесь можешь сохранять данные пользователя в state или в localStorage
-        console.log(userData); // для проверки данных
-      } else {
-        setMessage("Неверный логин или пароль");
+        if (response.ok) {
+          const user = await response.json();
+          alert("Вход успешен");
+        
+        } else if (response.status === 204) {
+          setLoginError("Неверный email или пароль");
+        } else {
+          setLoginError("Ошибка на сервере. Попробуйте позже.");
+        }
+      } catch (error) {
+        setIsLoading(false); 
+        setLoginError("Ошибка при соединении с сервером");
       }
-    } catch (error) {
-      setMessage("Ошибка при отправке данных на сервер");
     }
   };
 
@@ -47,21 +72,23 @@ export default function Login({ onClose, openRegister }) {
           <h1>Вход</h1>
           <input
             type="email"
-            name="Email"
+            name="email"
+            value={formData.email}
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleInputChange}
           />
+          {errors.email && <span className="error">{errors.email}</span>}
           <input
             type="password"
-            name="Password"
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formData.password}
+            placeholder="Password"
+            onChange={handleInputChange}
           />
-          {message && <p>{message}</p>}
-          <button className="log-in-button" onClick={handleLogin}>
-            Войти
+          {errors.password && <span className="error">{errors.password}</span>}
+          {loginError && <span className="error">{loginError}</span>}
+          <button className="log-in-button" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "Загрузка..." : "Войти"}
           </button>
           <button
             className="to-registration-button"

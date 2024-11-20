@@ -3,48 +3,41 @@ import x from "../../assets/x.svg";
 import "./Register.css";
 
 export default function Register({ onClose, openLogin }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const handleRegister = async (e) => {
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.email) newErrors.email = "Пожалуйста, введите email";
+    if (!formData.password) newErrors.password = "Пожалуйста, введите пароль";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Пожалуйста, подтвердите пароль";
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Пароли не совпадают";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Проверка на совпадение паролей
-    if (password !== confirmPassword) {
-      setMessage("Пароли не совпадают");
-      return;
-    }
-
-    const userDTO = {
-      Email: email,
-      Password: password,
-      FirstName: "", // Добавь если нужно
-      LastName: "",  // Добавь если нужно
-    };
-
-    try {
-      const response = await fetch("http://localhost:5000/api/Users/Registration", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userDTO),
-      });
-
-      if (response.ok) {
-        setMessage("Пользователь успешно зарегистрирован");
-        // Очистка полей после успешной регистрации
-        setEmail("");
-        setPassword("");
-        setConfirmPassword("");
-      } else {
-        const errorData = await response.json();
-        setMessage(errorData.message || "Ошибка при регистрации");
-      }
-    } catch (error) {
-      setMessage("Ошибка при отправке данных на сервер");
+    if (validateForm()) {
+      
+      console.log("Форма отправлена");
     }
   };
 
@@ -58,27 +51,31 @@ export default function Register({ onClose, openLogin }) {
           <h1>Регистрация</h1>
           <input
             type="email"
-            name="Email"
+            name="email"
+            value={formData.email}
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleInputChange}
           />
+          {errors.email && <span className="error">{errors.email}</span>}
           <input
             type="password"
-            name="Password"
-            placeholder="Пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            value={formData.password}
+            placeholder="Password"
+            onChange={handleInputChange}
           />
+          {errors.password && <span className="error">{errors.password}</span>}
           <input
             type="password"
-            name="ConfirmPassword"
-            placeholder="Подтвердите пароль"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            placeholder="Confirm Password"
+            onChange={handleInputChange}
           />
-          {message && <p>{message}</p>}
-          <button className="register-button" onClick={handleRegister}>
+          {errors.confirmPassword && (
+            <span className="error">{errors.confirmPassword}</span>
+          )}
+          <button className="register-button" onClick={handleSubmit}>
             Регистрация
           </button>
           <button

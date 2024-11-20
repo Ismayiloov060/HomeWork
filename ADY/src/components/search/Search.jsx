@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTrip } from "../../context/TripContext";
 
@@ -16,7 +16,7 @@ const Search = ({ tripType }) => {
     { value: "Novxani", label: t("novxani") },
     { value: "Goredil", label: t("goredil") },
     { value: "Pirsagi", label: t("pirsagi") },
-    { value: "Koroglu", label: t("koroglu") }
+    { value: "Koroglu", label: t("koroglu") },
   ];
 
   const intercityLocations = [
@@ -25,15 +25,41 @@ const Search = ({ tripType }) => {
     { value: "Agdas", label: t("agdas") },
     { value: "Gence", label: t("gence") },
     { value: "Tovuz", label: t("tovuz") },
-    { value: "Agstafa", label: t("agstafa") }
+    { value: "Agstafa", label: t("agstafa") },
   ];
 
   const locations = tripType === "absheron" ? absheronLocations : intercityLocations;
+
+  const schedule = {
+    absheron: {
+      Baku: ["07:50", "12:30", "18:00"],
+      Sumqayit: ["08:30", "14:00", "19:00"],
+      Novxani: ["08:50", "14:30", "19:30"],
+      Goredil: ["09:10", "15:00", "20:00"],
+      Pirsagi: ["09:40", "15:30", "20:30"],
+      Koroglu: ["10:00", "16:00", "21:00"],
+    },
+    intercity: {
+      Baku: ["08:00", "12:00", "16:00"],
+      Ucar: ["09:00", "13:00", "17:00"],
+      Agdas: ["09:30", "13:30", "17:30"],
+      Gence: ["10:00", "14:00", "18:00"],
+      Tovuz: ["10:30", "14:30", "18:30"],
+      Agstafa: ["11:00", "15:00", "19:00"],
+    },
+  };
 
   const handleFromChange = (event) => {
     const selectedFrom = event.target.value;
     setFrom(selectedFrom);
     updateTrip("from", selectedFrom);
+
+    if (schedule[tripType]?.[selectedFrom]) {
+      setTime(schedule[tripType][selectedFrom][0]); 
+    } else {
+      setTime("");
+    }
+
     if (selectedFrom === to) {
       setTo("");
       updateTrip("to", "");
@@ -62,11 +88,13 @@ const Search = ({ tripType }) => {
     updateTrip("time", selectedTime);
   };
 
-  const timeOptions = [
-    { value: "08:00", label: "08:00" },
-    { value: "12:00", label: "12:00" },
-    { value: "18:00", label: "18:00" }
-  ];
+  useEffect(() => {
+    
+    const currentDate = new Date().toISOString().split("T")[0]; 
+    setDate(currentDate);
+  }, []);
+
+  const currentDate = new Date().toISOString().split("T")[0]; 
 
   return (
     <div className="w-full flex justify-center my-[8ch]">
@@ -127,6 +155,7 @@ const Search = ({ tripType }) => {
               className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900"
               value={date}
               onChange={handleDateChange}
+              min={currentDate} 
             />
           </div>
 
@@ -142,9 +171,9 @@ const Search = ({ tripType }) => {
               onChange={handleTimeChange}
             >
               <option value="">{t("select time")}</option>
-              {timeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
+              {schedule[tripType]?.[from]?.map((option) => (
+                <option key={option} value={option}>
+                  {option}
                 </option>
               ))}
             </select>

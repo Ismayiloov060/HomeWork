@@ -10,7 +10,7 @@ import Register from '../register/Register';
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
-    const [registerOpen, setRegisterOpen] = useState(true); // Open Register by default
+    const [registerOpen, setRegisterOpen] = useState(false); // Open Register by default
     const [loginOpen, setLoginOpen] = useState(false);
 
     const changeLanguage = (language) => {
