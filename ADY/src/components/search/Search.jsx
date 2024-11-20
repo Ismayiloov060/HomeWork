@@ -55,9 +55,11 @@ const Search = ({ tripType }) => {
     updateTrip("from", selectedFrom);
 
     if (schedule[tripType]?.[selectedFrom]) {
-      setTime(schedule[tripType][selectedFrom][0]); 
+      setTime(schedule[tripType][selectedFrom][0]);
+      updateTrip("time", schedule[tripType][selectedFrom][0]);
     } else {
       setTime("");
+      updateTrip("time", "");
     }
 
     if (selectedFrom === to) {
@@ -70,6 +72,7 @@ const Search = ({ tripType }) => {
     const selectedTo = event.target.value;
     setTo(selectedTo);
     updateTrip("to", selectedTo);
+
     if (selectedTo === from) {
       setFrom("");
       updateTrip("from", "");
@@ -89,12 +92,18 @@ const Search = ({ tripType }) => {
   };
 
   useEffect(() => {
-    
-    const currentDate = new Date().toISOString().split("T")[0]; 
+    const currentDate = new Date().toISOString().split("T")[0];
     setDate(currentDate);
-  }, []);
+    updateTrip("date", currentDate);
 
-  const currentDate = new Date().toISOString().split("T")[0]; 
+    if (from && schedule[tripType]?.[from]) {
+      const defaultTime = schedule[tripType][from][0];
+      setTime(defaultTime);
+      updateTrip("time", defaultTime);
+    }
+  }, [from, tripType]); 
+
+  const currentDate = new Date().toISOString().split("T")[0];
 
   return (
     <div className="w-full flex justify-center my-[8ch]">
@@ -155,7 +164,7 @@ const Search = ({ tripType }) => {
               className="w-full appearance-none text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-600 inline-block bg-neutral-200/60 dark:bg-neutral-900/60 px-3 h-12 border border-neutral-200 dark:border-neutral-900 rounded-md focus:outline-none focus:bg-neutral-100 dark:focus:bg-neutral-900"
               value={date}
               onChange={handleDateChange}
-              min={currentDate} 
+              min={currentDate}
             />
           </div>
 
