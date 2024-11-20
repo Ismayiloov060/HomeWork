@@ -13,8 +13,8 @@ export default function Login({ onClose, openRegister }) {
     password: "",
   });
 
-  const [loginError, setLoginError] = useState(""); // Состояние для ошибки входа
-  const [isLoading, setIsLoading] = useState(false); // Состояние загрузки
+  const [loginError, setLoginError] = useState(""); 
+  const [isLoading, setIsLoading] = useState(false); 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
