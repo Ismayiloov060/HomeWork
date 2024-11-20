@@ -8,7 +8,7 @@ const Chat = ({ closeChat }) => {
   ]);
   const [input, setInput] = useState("");
   const [questionsPanelOpen, setQuestionsPanelOpen] = useState(false);
-  const [chatPosition, setChatPosition] = useState("fixed"); // Состояние для управления позицией чата
+  const [chatPosition, setChatPosition] = useState("fixed"); 
 
   const messagesEndRef = useRef(null);
   const chatRef = useRef(null);
@@ -51,17 +51,17 @@ const Chat = ({ closeChat }) => {
     setQuestionsPanelOpen(false);
   };
 
-  // Функция для отслеживания прокрутки страницы
+
   const handleScroll = () => {
     if (tableRef.current) {
       const tablePosition = tableRef.current.getBoundingClientRect().top;
       const windowHeight = window.innerHeight;
 
-      // Если таблица почти на экране, меняем позицию чата
+      
       if (tablePosition <= windowHeight && tablePosition >= 0) {
-        setChatPosition("absolute"); // Позиционируем чат над таблицей
+        setChatPosition("absolute"); 
       } else {
-        setChatPosition("fixed"); // Оставляем чат внизу экрана
+        setChatPosition("fixed");
       }
     }
   };
