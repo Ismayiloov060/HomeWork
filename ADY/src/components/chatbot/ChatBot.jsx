@@ -117,12 +117,12 @@ const ChatBot = () => {
                         </div>
 
                         
-                        <div className="p-4 bg-[#f4f4f4] dark:bg-[#1d5c87] space-y-2 overflow-y-auto max-h-[20vh] rounded-lg">
+                        <div className="p-4 bg-[#f4f4f4] dark:bg-black space-y-2 overflow-y-auto max-h-[20vh] rounded-lg">
                             {readyQuestions.map((question, index) => (
                                 <motion.button
                                     key={index}
                                     onClick={() => handleQuestionClick(question)}
-                                    className="bg-[#1d5c87] dark:bg-white text-white dark:text-[#1d5c87] px-4 py-2 rounded-lg w-full text-left"
+                                    className="bg-[#1d5c87] text-white px-4 py-2 rounded-lg w-full text-left"
                                     whileHover={{ scale: 1.05 }}
                                     transition={{ duration: 0.2 }}
                                 >

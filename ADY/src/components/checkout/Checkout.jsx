@@ -98,7 +98,7 @@ const Checkout = () => {
               type="submit"
               className="w-full px-8 h-12 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]"
             >
-              {t("Send Email")}
+              {t("Buy Ticket")}
               <FaArrowRight />
             </button>
           </form>

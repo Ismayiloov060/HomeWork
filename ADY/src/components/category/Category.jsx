@@ -11,7 +11,6 @@ const Category = () => {
     return (
         <div className='category-container'>
             <div className="category-grid">
-        
                 <Link to="/detail/absheron" className='category-item'>
                     <img src={Baku} alt="train img" className="train-img" />
                     <div className="overlay">

@@ -110,6 +110,7 @@
 .dark .navbar-link:hover {
     color: #979797; 
 }
+
 .navbar-contact {
     display: flex;
     flex-direction: column;
@@ -165,6 +166,8 @@
 .login-button {
     margin-left: 2ch;
     color: white;
+    display: flex;
+    align-items: center;
 }
 
 .login-button:hover {
@@ -213,13 +216,11 @@
 }
 
 .language-button:hover {
-   
     transform: scale(1.05);
 }
 
 .language-button:focus {
     outline: none;
-    
 }
 
 .language-button.active::after {
@@ -231,4 +232,10 @@
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px; 
 }

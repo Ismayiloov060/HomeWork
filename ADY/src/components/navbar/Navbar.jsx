@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; 
 import Logo from "../../assets/ADY6.png";
 import { FaPhone, FaUser } from 'react-icons/fa6';
 import Theme from '../theme/Theme';
@@ -10,8 +10,18 @@ import Register from '../register/Register';
 
 const Navbar = () => {
     const { t, i18n } = useTranslation();
-    const [registerOpen, setRegisterOpen] = useState(false); // Open Register by default
+    const [registerOpen, setRegisterOpen] = useState(false); 
     const [loginOpen, setLoginOpen] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false); 
+    const navigate = useNavigate(); 
+
+    useEffect(() => {
+        
+        const user = localStorage.getItem('user'); 
+        if (user) {
+            setIsAuthenticated(true);
+        }
+    }, []);
 
     const changeLanguage = (language) => {
         i18n.changeLanguage(language);
@@ -33,6 +43,19 @@ const Navbar = () => {
 
     const closeRegister = () => {
         setRegisterOpen(false);
+    };
+
+    const handleLoginSuccess = () => {
+        setIsAuthenticated(true); 
+        localStorage.setItem('user', 'true'); 
+        navigate('/dashboard'); 
+        closeLogin();
+    };
+
+    const handleLogout = () => {
+        setIsAuthenticated(false); 
+        localStorage.removeItem('user'); 
+        navigate('/');
     };
 
     return (
@@ -81,13 +104,21 @@ const Navbar = () => {
                     <Theme />
                 </div>
 
-                <button onClick={openLogin} className="login-button">
-                    <FaUser />
-                </button>
-
-                {loginOpen && <Login onClose={closeLogin} openRegister={openRegister} />}
-                {registerOpen && <Register onClose={closeRegister} openLogin={openLogin} />}
+                <div className="navbar-actions">
+                    {isAuthenticated ? (
+                        <button onClick={handleLogout} className="logout-button">
+                            Выйти
+                        </button>
+                    ) : (
+                        <button onClick={openLogin} className="login-button">
+                            <FaUser />
+                        </button>
+                    )}
+                </div>
             </div>
+
+            {loginOpen && <Login onClose={closeLogin} openRegister={openRegister} onLoginSuccess={handleLoginSuccess} />}
+            {registerOpen && <Register onClose={closeRegister} openLogin={openLogin} />}
         </nav>
     );
 };
