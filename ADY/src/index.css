@@ -42,3 +42,47 @@ background-position: center center;
 background-repeat: no-repeat;
 
 }
+
+
+
+
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.05)), url("./assets/62.png");
+    background-size: cover;
+    background-position: top center;
+    padding: 20px;
+  }
+
+  .hero .flex-1 {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .hero p {
+    font-size: 1rem; 
+    text-align: center;
+    line-clamp: 3;
+  }
+
+
+  .hero img {
+    position: static;
+    width: 100%; 
+   margin-right: 95px;
+    object-fit: cover; 
+  }
+
+  .hero a {
+    display: block;
+    margin: 0 auto; 
+    text-align: center;
+    width: fit-content;
+  }
+}

@@ -19,7 +19,7 @@ const TrainSeatLayout = () => {
     const totalSeats = 41;
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [bookedSeats] = useState([]);
-    const { trip, updateTrip } = useTrip();
+    const { updateTrip } = useTrip();
     const { t } = useTranslation();
 
     useEffect(() => {
@@ -62,13 +62,14 @@ const TrainSeatLayout = () => {
     };
 
     return (
-        <div className='space-y-5'>
+        <div className="space-y-5">
             <h2 className="text-xl text-neutral-800 dark:text-neutral-100 font-medium">
                 {t("choose a seat")}
             </h2>
 
-            <div className="w-full flex justify-between">
-                <div className="flex-1 w-full flex">
+            <div className="w-full flex flex-col lg:flex-row justify-between">
+                {/* Левый блок с сиденьями */}
+                <div className="flex-1 flex">
                     <div className="w-full flex-1 flex gap-x-4 items-stretch">
                         <div className="w-10 h-full border-r-2 border-dashed border-neutral-300 dark:border-neutral-800">
                             <GiSteeringWheel className='text-3xl mr-1 mt-6 text-[#1d5c87] -rotate-90' />
@@ -96,23 +97,24 @@ const TrainSeatLayout = () => {
                     </div>
                 </div>
 
-                <div className='space-y-4 w-28' style={{ marginLeft: '30px' }}>
+                {/* Правый блок с информацией о доступности мест */}
+                <div className="seat-info flex flex-col space-y-4 w-28 lg:ml-8 lg:mt-0 mt-6">
                     <div className="flex items-center gap-x-2">
-                        <MdOutlineChair className='text-lg text-neutral-500 -rotate-90' />
+                        <MdOutlineChair className="text-lg text-neutral-500 -rotate-90" />
                         <p className="text-neutral-900 dark:text-neutral-200 text-sm font-normal">
                             - {t("available")}
                         </p>
                     </div>
 
                     <div className="flex items-center gap-x-2">
-                        <MdOutlineChair className='text-lg text-red-500 -rotate-90' />
+                        <MdOutlineChair className="text-lg text-red-500 -rotate-90" />
                         <p className="text-neutral-900 dark:text-neutral-200 text-sm font-normal">
                             - {t("booked")}
                         </p>
                     </div>
 
                     <div className="flex items-center gap-x-2">
-                        <MdOutlineChair className='text-lg text-[#1d5c87] -rotate-90' />
+                        <MdOutlineChair className="text-lg text-[#1d5c87] -rotate-90" />
                         <p className="text-neutral-900 dark:text-neutral-200 text-sm font-normal">
                             - {t("selected")}
                         </p>

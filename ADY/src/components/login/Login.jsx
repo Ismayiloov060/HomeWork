@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import x from "../../assets/x.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
-import { useNavigate } from "react-router-dom";
 
-export default function Login({ onClose, openRegister }) {
+export default function Login({ onClose, openRegister, onLoginSuccess }) {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -14,10 +14,7 @@ export default function Login({ onClose, openRegister }) {
     password: "",
   });
 
-  const [loginError, setLoginError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,8 +23,14 @@ export default function Login({ onClose, openRegister }) {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.email) newErrors.email = "Please enter your email";
-    if (!formData.password) newErrors.password = "Please enter your password";
+    if (!formData.email) {
+      newErrors.email = "Please enter your email";
+      toast.error("Please enter your email");  // Toast для ошибки
+    }
+    if (!formData.password) {
+      newErrors.password = "Please enter your password";
+      toast.error("Please enter your password");  // Toast для ошибки
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -35,7 +38,6 @@ export default function Login({ onClose, openRegister }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoginError("");
     if (validateForm()) {
       setIsLoading(true);
       try {
@@ -50,27 +52,18 @@ export default function Login({ onClose, openRegister }) {
         setIsLoading(false);
 
         if (response.ok) {
-          const user = await response.json();
-        
-          localStorage.setItem("user", JSON.stringify(user));
+          const userData = await response.json();
+          localStorage.setItem('userData', JSON.stringify(userData));
 
-          
-          const userDataResponse = await fetch(`https://localhost:7261/api/Users/GetUserData?email=${formData.email}`);
-          if (userDataResponse.ok) {
-            const userData = await userDataResponse.json();
-            localStorage.setItem("userData", JSON.stringify(userData)); 
-          }
-
-          alert("Login successful");
-          navigate("/dashboard"); 
-        } else if (response.status === 204) {
-          setLoginError("Incorrect email or password");
+          toast.success("Login successful!");  
+          onLoginSuccess(); 
         } else {
-          setLoginError("Server error, please try again later.");
+          const errorData = await response.json();
+          toast.error(errorData.message || "Login error. Please try again later.");  
         }
       } catch (error) {
         setIsLoading(false);
-        setLoginError("Connection error");
+        toast.error("Invalid Account");  
       }
     }
   };
@@ -78,10 +71,7 @@ export default function Login({ onClose, openRegister }) {
   return (
     <div className="modal-overlay">
       <div className="modal-window">
-        <button className="close-modal" onClick={onClose}>
-          <img src={x} alt="close-btn" />
-        </button>
-        <div className="modal-right-left-container">
+        <div className="modal-window-container">
           <h1>Login</h1>
           <input
             type="email"
@@ -90,7 +80,8 @@ export default function Login({ onClose, openRegister }) {
             placeholder="Email"
             onChange={handleInputChange}
           />
-          {errors.email && <span className="error">{errors.email}</span>}
+          
+
           <input
             type="password"
             name="password"
@@ -98,22 +89,24 @@ export default function Login({ onClose, openRegister }) {
             placeholder="Password"
             onChange={handleInputChange}
           />
-          {errors.password && <span className="error">{errors.password}</span>}
-          {loginError && <span className="error">{loginError}</span>}
-          <button className="log-in-button" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? "Loading..." : "Log In"}
+         
+
+          <button className="to-register-button" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "Loading..." : "Login"}
           </button>
+
           <button
-            className="to-registration-button"
+            className="to-register-button"
             onClick={() => {
               onClose();
               openRegister();
             }}
           >
-            Register
+            Don't have account? Register
           </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar closeOnClick />
     </div>
   );
 }

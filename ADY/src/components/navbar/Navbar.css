@@ -139,6 +139,7 @@
 .contact-icon {
     color: #153f5c;
     font-size: 1.5rem;
+    transform: rotate(90deg);
 }
 
 .contact-info {
@@ -238,4 +239,155 @@
     display: flex;
     align-items: center;
     gap: 20px; 
+    justify-content: center; 
+   
+}
+
+.go-to-dashboard-button, .logout-button, .theme-toggle {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+.go-to-dashboard-button:hover, .logout-button:hover, .theme-toggle:hover {
+    color: #979797;
+}
+
+.go-to-dashboard-button .icon {
+   margin-left: 0.5rem; 
+}
+
+.login-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+} 
+
+@media (max-width: 767px) {
+    .navbar {
+        padding: 0 1rem;
+       
+    }
+
+    .navbar-logo img {
+        width: 4rem;
+        margin-right: 1rem;
+    }
+
+    .navbar-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .navbar-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        left: 0;
+        width: 100%;
+        background-color: #153f5c;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        align-items: flex-start;
+    }
+
+    .navbar-links.open {
+        display: flex;
+    }
+
+    .navbar-links ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+        text-align: left; 
+    }
+
+    .navbar-link {
+        color: #ffffff;
+        font-weight: 500;
+        text-decoration: none;
+        display: block;
+        width: 100%;
+    }
+
+    .navbar-link:hover {
+        color: #979797;
+    }
+
+    .navbar-actions {
+        display: flex;
+        flex-direction: row; /* Изменяем направление на ряд */
+        gap: 1rem;
+        justify-content: flex-end; /* Выравниваем кнопки справа */
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .logout-button {
+        display: flex;
+        
+        gap: 1rem;
+        margin-left: 15px;
+        align-items: center;
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .go-to-dashboard-button {
+        display: flex;
+        margin-left: 1000px; 
+        gap: 1rem;
+        justify-content: flex-end; 
+        width: auto;
+        margin-top: 1rem;
+    }
+    .language-toggle {
+        position: absolute;
+        top: 30px;
+        right: 1rem;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 1rem;
+    }
+
+    .language-button {
+        background-color: #ffffff;
+        color: #153f5c;
+        border: none;
+        border-radius: 20px;
+        padding: 0.5rem 1.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s ease;
+    }
+
+    .language-button:hover  {
+        transform: scale(1.05);
+    }
+
+    .language-button:focus {
+        outline: none;
+    }
+
+    
+    .navbar-contact {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin-left:150px;
+        margin-top: -5rem;
+        align-items: flex-end;
+    }
+
+   
+
 }

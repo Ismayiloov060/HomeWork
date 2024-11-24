@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Save from "../../assets/save.png";
 import { FaCopy } from 'react-icons/fa6';
 import { useTranslation } from 'react-i18next';
-import "./Offer.css"
+
 const Offer = () => {
   const [copied, setCopied] = useState(null);
   const { t, i18n } = useTranslation();
@@ -38,7 +38,7 @@ const Offer = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
         {offers.map((offer, index) => (
           <div key={index} className="w-full h-auto rounded-xl bg-zinc-200/30 dark:bg-zinc-800/20 p-8 flex items-center gap-x-3 shadow-md">
-            <img src={Save} alt="save img" className="w-52 aspect-[2/1] object-contain object-center offer-image" />
+            <img src={Save} alt="save img" className="w-48 aspect-[2/1] object-contain object-center " />
             <div className="flex flex-1 flex-col space-y-5">
               <h1 className="text-xl font-semibold text-neutral-800 dark:text-neutral-50">
                 {t(offer.descriptionKey)}
@@ -51,7 +51,7 @@ const Offer = () => {
                     <span className="text-[#1d5c87]">{offer.code}</span>
                   )}
                 </div>
-                <button onClick={() => handleCopy(offer.code)} className="text-xl text-[#1d5c87]">
+                <button onClick={() => handleCopy(offer.code)} className="text-xl  text-[#1d5c87]">
                   <FaCopy />
                 </button>
               </div>
