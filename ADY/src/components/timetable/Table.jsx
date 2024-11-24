@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Table.css";
 import { useTranslation } from 'react-i18next';
 
 const Table = () => {
   const { t, i18n } = useTranslation();
+  const [showMore, setShowMore] = useState(false);
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
@@ -30,35 +31,47 @@ const Table = () => {
     ['№ 6640', '20:00', '20:03', '20:18', '20:25', '20:29', '20:32', '20:40', '20:44', '20:50', '20:55'],
   ];
 
+  const toggleMore = () => {
+    setShowMore(!showMore);
+  };
+
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>№</th>
-          <th>{t('baku')}</th>
-          <th>{t('novxani')}</th>
-          <th>{t('goredil')}</th>
-          <th>{t('pirsagi')}</th>
-          <th>{t('memmedli')}</th>
-          <th>{t('zabrat')}</th>
-          <th>{t('sabuncu')}</th>
-          <th>{t('bakixanov')}</th>
-          <th>{t('koroglu')}</th>
-          <th>{t('sumqayit')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <td key={cellIndex} data-label={cellIndex === 0 ? "Train Number" : t(cellIndex === 1 ? 'baku' : cellIndex === 2 ? 'novxani' : cellIndex === 3 ? 'goredil' : cellIndex === 4 ? 'pirsagi' : cellIndex === 5 ? 'memmedli' : cellIndex === 6 ? 'zabrat' : cellIndex === 7 ? 'sabuncu' : cellIndex === 8 ? 'bakixanov' : cellIndex === 9 ? 'koroglu' : 'sumqayit')}>
-                {cell}
-              </td>
-            ))}
+    <>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>№</th>
+            <th>{t('baku')}</th>
+            <th>{t('novxani')}</th>
+            <th>{t('goredil')}</th>
+            <th>{t('pirsagi')}</th>
+            <th>{t('memmedli')}</th>
+            <th>{t('zabrat')}</th>
+            <th>{t('sabuncu')}</th>
+            <th>{t('bakixanov')}</th>
+            <th>{t('koroglu')}</th>
+            <th>{t('sumqayit')}</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.slice(0, showMore ? data.length : 3).map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((cell, cellIndex) => (
+                <td key={cellIndex} data-label={cellIndex === 0 ? "Train Number" : t(cellIndex === 1 ? 'baku' : cellIndex === 2 ? 'novxani' : cellIndex === 3 ? 'goredil' : cellIndex === 4 ? 'pirsagi' : cellIndex === 5 ? 'memmedli' : cellIndex === 6 ? 'zabrat' : cellIndex === 7 ? 'sabuncu' : cellIndex === 8 ? 'bakixanov' : cellIndex === 9 ? 'koroglu' : 'sumqayit')}>
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <div className="mobile-buttons">
+        <button className="show-more" onClick={toggleMore}>
+          {showMore ? 'Скрыть' : 'Еще'}
+        </button>
+      </div>
+    </>
   );
 };
 
