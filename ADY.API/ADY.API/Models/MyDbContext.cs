@@ -16,12 +16,11 @@ namespace ADY.API.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Ticket>()
-                .HasOne(t => t.User)
+                .HasOne<User>() 
                 .WithMany()
-                .HasForeignKey(t => t.UserId);
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
-
-    }   
+    }
 }

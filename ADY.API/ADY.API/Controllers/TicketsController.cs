@@ -1,6 +1,6 @@
 ﻿using ADY.API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ADY.API.Controllers
 {
@@ -15,28 +15,56 @@ namespace ADY.API.Controllers
             this.dbContext = dbContext;
         }
 
-      
         [HttpPost]
         [Route("Create")]
-        public IActionResult CreateTicket([FromBody] Ticket ticket)
+        public async Task<IActionResult> CreateTicket([FromBody] Ticket ticket)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
+           
             dbContext.Tickets.Add(ticket);
-            dbContext.SaveChanges();
-            return Ok("Ticket created successfully");
+            await dbContext.SaveChangesAsync();
+
+          
+            return Ok(new
+            {
+                Message = "Ticket created successfully",
+                Ticket = ticket
+            });
         }
 
-     
+      
         [HttpGet]
-        [Route("GetTickets/{userId}")]
-        public IActionResult GetTickets(int userId)
+        [Route("GetByTicketId")]
+        public async Task<IActionResult> GetTicketByTicketId(int ticketId)
         {
-            var tickets = dbContext.Tickets.Where(t => t.UserId == userId).ToList();
+            var ticket = await dbContext.Tickets.FirstOrDefaultAsync(t => t.TicketId == ticketId);
 
-            if (tickets.Count == 0)
-                return NotFound("No tickets found for this user.");
+            if (ticket == null)
+            {
+                return NotFound(new { Message = "Ticket not found" });
+            }
+
+           
+            return Ok(ticket);
+        }
+
+      
+        [HttpGet]
+        [Route("GetByUserId")]
+        public async Task<IActionResult> GetTicketsByUserId(int userId)
+        {
+            var tickets = await dbContext.Tickets
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            if (!tickets.Any())
+            {
+                return NotFound(new { Message = "No tickets found for the specified user" });
+            }
 
             return Ok(tickets);
         }
