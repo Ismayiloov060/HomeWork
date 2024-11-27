@@ -14,7 +14,7 @@ import Dashboard from './components/dashboard/DashBoard';
 import Ticket from './components/ticket/Ticket';
 import Register from './components/register/Register'; 
 import Login from './components/login/Login'; 
-
+import AdminPanel from './components/adminpanel/AdminPanel';
 function App() {
   const [isFirstVisit, setIsFirstVisit] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -65,6 +65,7 @@ function App() {
             <Route path="/category" element={<Category />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/ticket" element={<Ticket />} />
+            <Route path="/admin" element={<AdminPanel/>} />
           </Routes>
 
           

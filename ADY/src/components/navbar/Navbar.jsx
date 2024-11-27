@@ -48,10 +48,17 @@ const Navbar = () => {
         setRegisterOpen(false);
     };
 
-    const handleLoginSuccess = () => {
+    const handleLoginSuccess = (role) => {
         setIsAuthenticated(true);
         localStorage.setItem('user', 'true');
-        navigate('/dashboard');
+        
+       
+        if (role === 'admin') {
+            navigate('/admin'); 
+        } else {
+            navigate('/dashboard');
+        }
+        
         closeLogin();
     };
 
