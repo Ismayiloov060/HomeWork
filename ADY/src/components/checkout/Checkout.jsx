@@ -1,13 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { useTrip } from "../../context/TripContext";
 import axios from "axios";
 
 const Checkout = () => {
-  const { trip, totalPrice } = useTrip();
+  const { trip, totalPrice, updateTrip } = useTrip();
   const { t } = useTranslation();
   const [emailSent, setEmailSent] = useState(false);
+
+  useEffect(() => {
+    const savedTrip = JSON.parse(localStorage.getItem("trip"));
+    const savedTotalPrice = localStorage.getItem("totalPrice");
+
+    if (savedTrip) {
+  
+      updateTrip("from", savedTrip.from);
+      updateTrip("to", savedTrip.to);
+      updateTrip("date", savedTrip.date);
+      updateTrip("time", savedTrip.time);
+      updateTrip("seats", savedTrip.seats);
+    }
+
+    if (savedTotalPrice) {
+  
+      updateTrip("totalPrice", savedTotalPrice);
+    }
+  }, [updateTrip]);
 
   const sendEmail = async (fullname, email, phone) => {
     try {
@@ -25,6 +44,16 @@ const Checkout = () => {
     }
   };
 
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const fullname = e.target.fullname.value;
+    const email = e.target.email.value;
+    const phone = e.target.phone.value;
+
+    
+    sendEmail(fullname, email, phone);
+  };
+
   if (!trip.from || !trip.to || !trip.date || !trip.time) {
     return <div>Loading...</div>;
   }
@@ -36,16 +65,7 @@ const Checkout = () => {
           <h2 className="text-xl text-neutral-800 dark:text-neutral-100 font-medium">
             {t("passenger information")}
           </h2>
-          <form
-            className="space-y-6"
-            onSubmit={(e) => {
-              e.preventDefault();
-              const fullname = e.target.fullname.value;
-              const email = e.target.email.value;
-              const phone = e.target.phone.value;
-              sendEmail(fullname, email, phone);
-            }}
-          >
+          <form className="space-y-6" onSubmit={handleFormSubmit}>
             <div>
               <label htmlFor="fullname" className="block mb-2 font-semibold">
                 {t("fullname")}
@@ -155,28 +175,17 @@ const Checkout = () => {
                       ))}
                     </div>
                   ) : (
-                    <p>{t("no_seats_selected")}</p>
+                    <p>{t("No seats selected")}</p>
                   )}
                 </div>
 
-                <div className="space-y-4">
-                  <div className="w-full flex items-center justify-between">
-                    <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      {t("total number of seats")}
-                    </h6>
-                    <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      {trip.seats.length || 0}
-                    </h6>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="w-full flex items-center justify-between">
-                    <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      {t("total amount")}
-                    </h6>
-                    <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
-                      ${totalPrice}
+                <div className="w-full flex justify-between items-center mt-5 border-t border-neutral-200 dark:border-neutral-800/40 pt-5">
+                  <h6 className="text-base font-medium text-neutral-800 dark:text-neutral-100">
+                    {t("total price")}:
+                  </h6>
+                  <div className="flex items-center gap-2">
+                    <h6 className="text-xl font-bold text-[#1d5c87]">
+                      {totalPrice} ₼
                     </h6>
                   </div>
                 </div>
@@ -185,9 +194,9 @@ const Checkout = () => {
           </div>
 
           {emailSent && (
-            <p className="text-green-500 text-center">
+            <div className="text-center text-green-500">
               {t("Email has been sent!")}
-            </p>
+            </div>
           )}
         </div>
       </div>

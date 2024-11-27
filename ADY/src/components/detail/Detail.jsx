@@ -10,6 +10,12 @@ import Search from "../search/Search";
 const Detail = () => {
     const { t } = useTranslation();
     const { tripType } = useParams();  
+    const [selectedSeats, setSelectedSeats] = React.useState([]);
+
+    // Функция для обновления выбранных мест
+    const handleSeatSelection = (seats) => {
+        setSelectedSeats(seats);
+    };
 
     return (
         <div className='w-full lg:px-26 md:px-16 sm:px-7 px-4 mt-[5ch] mb-[10ch]'>
@@ -41,13 +47,10 @@ const Detail = () => {
 
                 <div className="col-span-1 space-y-10">
                     <div className="space-y-6">
-                        <Search tripType={tripType} />  
-                        <Seat />
+                        <Search tripType={tripType} />
+                        <Seat onSeatSelection={handleSeatSelection} />  {/* Передаем функцию для обновления выбранных мест */}
                     </div>
-                    <div className="flex justify-start ">
-                        <Link to={'/checkout'} className='w-fit bg-[#1d5c87]  text-white font-medium text-base px-6 py-2 rounded-md hover:bg-[#1d5c87] ease-in-out duration-300'>
-                            {t("buy")}
-                        </Link>
+                    <div className="flex justify-start">
                     </div>
                 </div>
             </div>

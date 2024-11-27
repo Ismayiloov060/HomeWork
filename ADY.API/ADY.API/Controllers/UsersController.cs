@@ -19,17 +19,23 @@ namespace ADY.API.Controllers
 
         [HttpPost]
         [Route("Registration")]
-        public IActionResult Registration(User user)
+        public IActionResult Registration(UserDTO userDTO)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var objUser = dbContext.Users.SingleOrDefault(x => x.Email == user.Email);
+            var objUser = dbContext.Users.SingleOrDefault(x => x.Email == userDTO.Email);
             if (objUser == null)
             {
-                dbContext.Users.Add(user);
+                dbContext.Users.Add(new User
+                {
+                    FirstName = userDTO.FirstName,
+                    LastName = userDTO.LastName,
+                    Email = userDTO.Email,
+                    Password = userDTO.Password
+                });
                 dbContext.SaveChanges();
                 return Ok("User registered successfully");
             }
@@ -41,16 +47,51 @@ namespace ADY.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(User user)
+        public IActionResult Login(LoginDTO loginDTO)
         {
-            var loggedUser = dbContext.Users
-                .FirstOrDefault(x => x.Email == user.Email && x.Password == user.Password);
-
-            if (loggedUser != null)
+            try
             {
-                return Ok(loggedUser);
+                var user = dbContext.Users.FirstOrDefault(x => x.Email == loginDTO.Email && x.Password == loginDTO.Password);
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+
+                return NoContent();
             }
-            return Unauthorized("Invalid credentials");
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error during login");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetUserData")]
+        public IActionResult GetUserData(string email)
+        {
+            try
+            {
+                var user = dbContext.Users.FirstOrDefault(x => x.Email == email);
+                if (user != null)
+                {
+                    return Ok(new
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email
+                    });
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error fetching user data");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet]
@@ -60,20 +101,41 @@ namespace ADY.API.Controllers
             return Ok(dbContext.Users.ToList());
         }
 
-        [HttpDelete]
-        [Route("DeleteUser/{id}")]
-        public IActionResult DeleteUser(int id)
+        [HttpGet]
+        [Route("GetUser")]
+        public IActionResult GetUser(int id)
         {
             var user = dbContext.Users.FirstOrDefault(x => x.UserId == id);
-            if (user == null)
+            if (user != null)
+                return Ok(user);
+            else
+                return NoContent();
+        }
+
+        
+        [HttpDelete]
+        [Route("DeleteUser")]
+        public IActionResult DeleteUser(int id)
+        {
+            try
             {
-                return NotFound("User not found");
+                var user = dbContext.Users.FirstOrDefault(x => x.UserId == id);
+                if (user != null)
+                {
+                    dbContext.Users.Remove(user);
+                    dbContext.SaveChanges();
+                    return Ok("User deleted successfully");
+                }
+                else
+                {
+                    return NotFound("User not found");
+                }
             }
-
-            dbContext.Users.Remove(user);
-            dbContext.SaveChanges();
-
-            return Ok("User deleted successfully");
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error deleting user");
+                return StatusCode(500, "Internal server error");
+            }
         }
     }
 }

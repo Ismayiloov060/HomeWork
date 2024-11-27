@@ -122,8 +122,4 @@
 }
 
 
-@media (min-width: 769px) {
-  .mobile-buttons {
-    display: none;
-  }
-}
+

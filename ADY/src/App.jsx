@@ -14,7 +14,7 @@ import Dashboard from './components/dashboard/DashBoard';
 import Ticket from './components/ticket/Ticket';
 import Register from './components/register/Register'; 
 import Login from './components/login/Login'; 
-import AdminPanel from './components/adminpanel/AdminPanel';
+import AdminPanel from './components/adminpanel/AdminPanel.jsx';
 function App() {
   const [isFirstVisit, setIsFirstVisit] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
