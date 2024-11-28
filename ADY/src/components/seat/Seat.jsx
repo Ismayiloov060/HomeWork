@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { GiSteeringWheel } from "react-icons/gi";
 import { MdOutlineChair } from "react-icons/md";
-import { useTranslation } from "react-i18next";
 import { useTrip } from "../../context/TripContext";
-import { Link } from 'react-router-dom';  
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Seat = ({ seatNumber, isSelected, isBooked, onClick }) => {
   let seatColor = "";
@@ -25,65 +24,36 @@ const Seat = ({ seatNumber, isSelected, isBooked, onClick }) => {
 
 const TrainSeatLayout = () => {
   const totalSeats = 41;
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const [bookedSeats, setBookedSeats] = useState([]);
-  const [isBooked, setIsBooked] = useState(false); 
-  const { updateTrip } = useTrip();
+  const { trip, updateTrip } = useTrip();
   const { t } = useTranslation();
 
   useEffect(() => {
-    const savedSelectedSeats = JSON.parse(localStorage.getItem("selectedSeats")) || [];
-    const savedBookedSeats = JSON.parse(localStorage.getItem("bookedSeats")) || [];
-
-    setSelectedSeats(savedSelectedSeats);
-    setBookedSeats(savedBookedSeats);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("selectedSeats", JSON.stringify(selectedSeats));
-    localStorage.setItem("bookedSeats", JSON.stringify(bookedSeats));
-
-    if (selectedSeats.length > 0) {
-      updateTripSeats();
-    }
-  }, [selectedSeats, bookedSeats]);
+    const savedSeats = JSON.parse(localStorage.getItem("selectedSeats")) || [];
+    updateTrip("seats", savedSeats);
+  }, [updateTrip]);
 
   const handleSeatClick = (seatNumber) => {
-    if (bookedSeats.includes(seatNumber)) {
+    if (trip.bookedSeats.includes(seatNumber)) {
       return;
     }
 
-    if (selectedSeats.includes(seatNumber)) {
-      setSelectedSeats(selectedSeats.filter((seat) => seat !== seatNumber));
+    let updatedSeats = [...trip.seats];
+    if (updatedSeats.includes(seatNumber)) {
+      updatedSeats = updatedSeats.filter((seat) => seat !== seatNumber);
     } else {
-      if (selectedSeats.length < 5) {
-        setSelectedSeats([...selectedSeats, seatNumber]);
+      if (updatedSeats.length < 5) {
+        updatedSeats.push(seatNumber);
       } else {
-        alert("You can only select 5 seats");
+        alert("Вы можете выбрать только 5 мест");
+        return;
       }
     }
-  };
 
-  const handleBookSeats = () => {
-    setBookedSeats((prevBookedSeats) => {
-      const updatedBookedSeats = [...new Set([...prevBookedSeats, ...selectedSeats])];
-      return updatedBookedSeats;
-    });
-    setSelectedSeats([]);
-    setIsBooked(true);  
-  };
-
-  const handleUnbookSeats = () => {
-    setBookedSeats([]);
-    setSelectedSeats([]);
-    setIsBooked(false); 
-    localStorage.setItem("selectedSeats", JSON.stringify([]));
-    localStorage.setItem("bookedSeats", JSON.stringify([]));
-  };
-
-  const updateTripSeats = () => {
-    updateTrip("seats", selectedSeats);
-    updateTrip("totalPrice", selectedSeats.length * 15);
+    updateTrip("seats", updatedSeats);
+    const totalPrice = updatedSeats.length * 15;
+    updateTrip("totalPrice", totalPrice);
+    localStorage.setItem("selectedSeats", JSON.stringify(updatedSeats));
+    localStorage.setItem("totalPrice", totalPrice);
   };
 
   const renderSeats = () => {
@@ -93,14 +63,16 @@ const TrainSeatLayout = () => {
         <Seat
           key={i}
           seatNumber={i}
-          isSelected={selectedSeats.includes(i)}
-          isBooked={bookedSeats.includes(i)}
+          isSelected={trip.seats.includes(i)}
+          isBooked={trip.bookedSeats.includes(i)}
           onClick={() => handleSeatClick(i)}
         />
       );
     }
     return seats;
   };
+
+  const availableSeats = trip.seats.filter(seat => !trip.bookedSeats.includes(seat));
 
   return (
     <div className="space-y-5">
@@ -112,7 +84,7 @@ const TrainSeatLayout = () => {
         <div className="flex-1 flex">
           <div className="w-full flex-1 flex gap-x-4 items-stretch">
             <div className="w-10 h-full border-r-2 border-dashed border-neutral-300 dark:border-neutral-800">
-              <GiSteeringWheel className="text-3xl mr-1 mt-6 text-[#1d5c87] -rotate-90" />
+              <MdOutlineChair className="text-3xl mr-1 mt-6 text-[#1d5c87] -rotate-90" />
             </div>
 
             <div className="flex flex-col items-center">
@@ -161,11 +133,11 @@ const TrainSeatLayout = () => {
         </div>
       </div>
 
-      {selectedSeats.length > 0 && (
+      {availableSeats.length > 0 && (
         <div className="!mt-10">
           <h3 className="text-lg font-bold">{t("selected seats:")}</h3>
           <div className="flex flex-wrap">
-            {selectedSeats.map((seat) => (
+            {availableSeats.map((seat) => (
               <div
                 key={seat}
                 className="w-10 h-10 rounded-md m-1.5 text-lg font-medium bg-[#1d5c87] text-white flex items-center justify-center"
@@ -177,37 +149,18 @@ const TrainSeatLayout = () => {
         </div>
       )}
 
-      {selectedSeats.length > 0 && (
+      {availableSeats.length > 0 && (
         <div className="!mt-5 flex items-center gap-x-1">
           <h3 className="text-lg font-bold">{t("total price:")}</h3>
-          <p className="text-lg font-medium">{selectedSeats.length * 15}₼</p>
+          <p className="text-lg font-medium">{availableSeats.length * 15}₼</p>
         </div>
       )}
 
-      <div className="flex gap-x-2 mt-4">
-        <button
-          type="button"
-          onClick={handleBookSeats}
-          className="w-20 h-8 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]"
-        >
-          {t("book")}
-        </button>
-
-        <button
-          type="button"
-          onClick={handleUnbookSeats}
-          className="w-20 h-8 bg-red-500 text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-red-500"
-        >
-          {t("unbook all")}
-        </button>
-      </div>
-
-    
       <div className="mt-6">
         <Link
           to="/checkout"
-          className={`w-full bg-[#1d5c87] text-white font-medium text-base px-6 py-2 rounded-md text-center ${!isBooked ? 'opacity-50 cursor-not-allowed' : ''}`}
-          style={{ pointerEvents: isBooked ? 'auto' : 'none' }}
+          className={`w-full bg-[#1d5c87] text-white font-medium text-base px-6 py-2 rounded-md text-center ${availableSeats.length === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          style={{ pointerEvents: availableSeats.length === 0 ? 'none' : 'auto' }}
         >
           {t("buy")}
         </Link>

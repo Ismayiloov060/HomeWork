@@ -231,7 +231,7 @@
 .language-toggle {
     position: absolute;
     top: 50%;
-    left: 60%;
+    left: 58%;
     transform: translate(-50%, -50%);
 }
 
@@ -239,8 +239,14 @@
     display: flex;
     align-items: center;
     gap: 20px; 
+    color: white;
     justify-content: center; 
-   
+
+}
+
+.admin-panel-button{
+
+    margin-left: 5px;
 }
 
 .go-to-dashboard-button, .logout-button, .theme-toggle {

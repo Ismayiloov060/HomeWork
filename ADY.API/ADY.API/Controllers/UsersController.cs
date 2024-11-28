@@ -112,22 +112,25 @@ namespace ADY.API.Controllers
                 return NoContent();
         }
 
-        
+
         [HttpDelete]
-        [Route("DeleteUser")]
+        [Route("DeleteUser/{id}")]
         public IActionResult DeleteUser(int id)
         {
             try
             {
+                logger.LogInformation($"Attempting to delete user with ID: {id}");
                 var user = dbContext.Users.FirstOrDefault(x => x.UserId == id);
                 if (user != null)
                 {
                     dbContext.Users.Remove(user);
                     dbContext.SaveChanges();
+                    logger.LogInformation($"User with ID {id} deleted successfully.");
                     return Ok("User deleted successfully");
                 }
                 else
                 {
+                    logger.LogWarning($"User with ID {id} not found.");
                     return NotFound("User not found");
                 }
             }

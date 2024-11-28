@@ -2,11 +2,37 @@
     padding: 20px;
     max-width: 800px;
     margin: auto;
+    margin-top:80px;
+    
+  }
+
+  .admin-panel .dark {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    margin-top:80px;
+    
   }
 
   .users-list {
-    margin-top: 50px;
+    margin-top: 10px;
   }
+
+  .head {
+    font-size: 30px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    color: black;
+  }
+
+
+   .dark .head {
+   color: white;
+
+
+  }
+ 
 
   .user-item {
     display: flex;
@@ -14,8 +40,14 @@
     align-items: center;
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     margin-bottom: 10px;
+    border-color: black;
+  }
+
+  .dark .user-item{
+
+    border-color: rgb(39 39 42 );
   }
 
   .delete-button {

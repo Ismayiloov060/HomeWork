@@ -8,13 +8,15 @@ const Checkout = () => {
   const { trip, totalPrice, updateTrip } = useTrip();
   const { t } = useTranslation();
   const [emailSent, setEmailSent] = useState(false);
+  const [seatsBooked, setSeatsBooked] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [emailSentMessage, setEmailSentMessage] = useState("");
 
   useEffect(() => {
     const savedTrip = JSON.parse(localStorage.getItem("trip"));
     const savedTotalPrice = localStorage.getItem("totalPrice");
 
     if (savedTrip) {
-  
       updateTrip("from", savedTrip.from);
       updateTrip("to", savedTrip.to);
       updateTrip("date", savedTrip.date);
@@ -23,9 +25,11 @@ const Checkout = () => {
     }
 
     if (savedTotalPrice) {
-  
       updateTrip("totalPrice", savedTotalPrice);
     }
+
+    localStorage.removeItem("bookedSeats");
+
   }, [updateTrip]);
 
   const sendEmail = async (fullname, email, phone) => {
@@ -38,6 +42,10 @@ const Checkout = () => {
         totalPrice,
       });
       setEmailSent(true);
+      setEmailSentMessage(t("Email has been sent successfully!"));
+      setTimeout(() => {
+        setEmailSentMessage("");
+      }, 3000);
     } catch (error) {
       console.error("Error sending email:", error);
       alert(t("Failed to send email"));
@@ -50,8 +58,17 @@ const Checkout = () => {
     const email = e.target.email.value;
     const phone = e.target.phone.value;
 
-    
     sendEmail(fullname, email, phone);
+  };
+
+  const handleBookSeats = () => {
+    updateTrip("bookedSeats", trip.seats);
+    localStorage.setItem("bookedSeats", JSON.stringify(trip.seats));
+    setSeatsBooked(true);
+    setSuccessMessage(t("Seats have been booked!"));
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 3000);
   };
 
   if (!trip.from || !trip.to || !trip.date || !trip.time) {
@@ -115,6 +132,7 @@ const Checkout = () => {
 
             <button
               type="submit"
+              disabled={!seatsBooked}
               className="w-full px-8 h-12 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]"
             >
               {t("Buy Ticket")}
@@ -124,7 +142,7 @@ const Checkout = () => {
         </div>
 
         <div className="lg:col-span-2 lg:sticky lg:top-28 space-y-8 lg:mt-0 mt-10">
-          <div className="bg-neutral-200/50 dark:bg-neutral-900/70 rounded-md py-5 px-7">
+          <div className="bg-neutral-200/50 dark:bg-neutral-900/70 rounded-md py-5 px-7 space-y-6">
             <h2 className="text-xl text-center text-neutral-800 dark:text-neutral-100 font-medium border-b-2 border-neutral-200 dark:border-neutral-800/40 pb-3 mb-4">
               {t("your booking status")}
             </h2>
@@ -164,42 +182,48 @@ const Checkout = () => {
                     {t("selected seats")}
                   </h6>
                   {trip.seats.length > 0 ? (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex gap-2 flex-wrap">
                       {trip.seats.map((seat, index) => (
-                        <div
+                        <span
                           key={index}
-                          className="px-3 py-1 bg-[#1d5c87] text-white rounded-md"
+                          className="px-3 py-1 rounded-md text-sm bg-[#1d5c87] text-neutral-50"
                         >
                           {seat}
-                        </div>
+                        </span>
                       ))}
                     </div>
                   ) : (
-                    <p>{t("No seats selected")}</p>
+                    <div>{t("No seats selected")}</div>
                   )}
-                </div>
-
-                <div className="w-full flex justify-between items-center mt-5 border-t border-neutral-200 dark:border-neutral-800/40 pt-5">
-                  <h6 className="text-base font-medium text-neutral-800 dark:text-neutral-100">
-                    {t("total price")}:
-                  </h6>
-                  <div className="flex items-center gap-2">
-                    <h6 className="text-xl font-bold text-[#1d5c87]">
-                      {totalPrice} ₼
-                    </h6>
-                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {emailSent && (
-            <div className="text-center text-green-500">
-              {t("Email has been sent!")}
+            <div className="text-xl font-semibold text-center py-4">
+              <p>{t("Total Price")}: {totalPrice} AZN</p>
             </div>
-          )}
+
+            <div className="w-full mt-5">
+              <button
+                onClick={handleBookSeats}
+                className="w-full bg-[#1d5c87] text-neutral-50 py-2 rounded-md text-base font-semibold transform transition-all duration-200 hover:scale-105 hover:bg-[#1d5c87]"
+              >
+                {t("Book Seats")}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+      {successMessage && (
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-md">
+          {successMessage}
+        </div>
+      )}
+      {emailSentMessage && (
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-md">
+          {emailSentMessage}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 
 const TripContext = createContext();
 
@@ -8,39 +8,30 @@ export const TripProvider = ({ children }) => {
     to: "",
     date: "",
     time: "",
-    seats: [], 
+    seats: [],
+    bookedSeats: [], 
   });
 
-  const [bookedSeats, setBookedSeats] = useState([]); 
-
   useEffect(() => {
-    
     const savedTrip = JSON.parse(localStorage.getItem("trip")) || {};
-    const savedBookedSeats = JSON.parse(localStorage.getItem("bookedSeats")) || [];
-
     setTrip(savedTrip);
-    setBookedSeats(savedBookedSeats);
   }, []);
 
   useEffect(() => {
-
     localStorage.setItem("trip", JSON.stringify(trip));
-    localStorage.setItem("bookedSeats", JSON.stringify(bookedSeats));
-  }, [trip, bookedSeats]);
+  }, [trip]);
 
-  
   const updateTrip = (field, value) => {
     setTrip((prev) => ({ ...prev, [field]: value }));
   };
 
-  
   const addSeat = (seatNumber) => {
     setTrip((prev) => ({
       ...prev,
       seats: [...prev.seats, seatNumber],
     }));
   };
-  
+
   const removeSeat = (seatNumber) => {
     setTrip((prev) => ({
       ...prev,
@@ -48,23 +39,20 @@ export const TripProvider = ({ children }) => {
     }));
   };
 
-  
   const bookSeats = (seats) => {
-    setBookedSeats((prevBookedSeats) => {
-      const updatedBookedSeats = [...new Set([...prevBookedSeats, ...seats])];
-      return updatedBookedSeats;
-    });
+    setTrip((prev) => ({
+      ...prev,
+      bookedSeats: [...new Set([...prev.bookedSeats, ...seats])],
+    }));
   };
 
-  
   const unbookSeats = (seats) => {
-    setBookedSeats((prevBookedSeats) => {
-      const updatedBookedSeats = prevBookedSeats.filter((seat) => !seats.includes(seat));
-      return updatedBookedSeats;
-    });
+    setTrip((prev) => ({
+      ...prev,
+      bookedSeats: prev.bookedSeats.filter((seat) => !seats.includes(seat)),
+    }));
   };
 
-  
   const seatPrice = 15;
   const totalPrice = trip.seats.length * seatPrice;
 
@@ -75,7 +63,7 @@ export const TripProvider = ({ children }) => {
         updateTrip,
         addSeat,
         removeSeat,
-        bookedSeats,
+        bookedSeats: trip.bookedSeats,
         bookSeats,
         unbookSeats,
         totalPrice,

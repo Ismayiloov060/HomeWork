@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from "../../assets/ADY6.png";
-import { FaPhone, FaUser, FaSignOutAlt, FaArrowCircleLeft, FaBars } from 'react-icons/fa';
+import { FaPhone, FaUser, FaSignOutAlt, FaArrowCircleLeft, FaBars, FaCogs } from 'react-icons/fa'; // Import FaCogs for the admin icon
 import Theme from '../theme/Theme';
 import './Navbar.css';
 import { useTranslation } from 'react-i18next';
@@ -14,13 +14,16 @@ const Navbar = () => {
     const [loginOpen, setLoginOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
+    const [userRole, setUserRole] = useState(null); // Store user role
     const navigate = useNavigate();
 
     useEffect(() => {
         const user = localStorage.getItem('user');
+        const role = localStorage.getItem('role'); // Get the role from local storage
         const hasRegistered = localStorage.getItem('hasRegistered');
         if (user) {
             setIsAuthenticated(true);
+            setUserRole(role); // Set the role
         } else if (!hasRegistered) {
             setRegisterOpen(true);
         }
@@ -51,20 +54,24 @@ const Navbar = () => {
     const handleLoginSuccess = (role) => {
         setIsAuthenticated(true);
         localStorage.setItem('user', 'true');
-        
-       
+        localStorage.setItem('role', role); // Save the role in local storage
+
+        setUserRole(role); // Set the role in the state
+
         if (role === 'admin') {
             navigate('/admin'); 
         } else {
             navigate('/dashboard');
         }
-        
+
         closeLogin();
     };
 
     const handleLogout = () => {
         setIsAuthenticated(false);
+        setUserRole(null); // Clear the user role
         localStorage.removeItem('user');
+        localStorage.removeItem('role');
         setRegisterOpen(true);
         setLoginOpen(false);
         navigate('/');
@@ -72,6 +79,10 @@ const Navbar = () => {
 
     const goToDashboard = () => {
         navigate('/dashboard');
+    };
+
+    const goToAdminPanel = () => {
+        navigate('/admin');
     };
 
     return (
@@ -121,10 +132,16 @@ const Navbar = () => {
                             <p className="phone-number">+994 99 907 77 07</p>
                         </div>
                     </div>
-                    <Theme/>
+                    <Theme />
                 </div>
 
                 <div className="navbar-actions">
+                    {isAuthenticated && userRole === 'admin' && (
+                        <button onClick={goToAdminPanel} className="admin-panel-button">
+                            <FaCogs className="icon" /> 
+                        </button>
+                    )}
+
                     {isAuthenticated && (
                         <button onClick={goToDashboard} className="go-to-dashboard-button">
                             <FaArrowCircleLeft className="icon" />

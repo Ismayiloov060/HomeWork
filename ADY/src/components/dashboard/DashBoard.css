@@ -5,6 +5,12 @@
     height: 100vh;           
     background-color: #f0f0f0; 
   }
+
+  .dark .dashboard-container{
+   background-color: black;
+
+
+  }
   
   .dashboard-content {
     text-align: center;      
@@ -15,10 +21,23 @@
     width: 100%;
     max-width: 400px;       
   }
+
+  .dark .dashboard-content{
+
+    background-color: rgb(39 39 42 / 0.2);
+  }
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  .dash {
+    font-size: 20px;
+    font-weight: bold;
+    
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .dash{
+   
+    color: white;
   }
   
   p {
