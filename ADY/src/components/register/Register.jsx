@@ -3,8 +3,11 @@ import x from "../../assets/x.svg";
 import { ToastContainer, toast } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
 import "./Register.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Register({ onClose, openLogin }) {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -106,13 +109,13 @@ export default function Register({ onClose, openLogin }) {
     <div className="modal-overlay">
       <div className="modal-window">
         <div className="modal-window-container">
-          <h1>Register</h1>
+          <h1 className="head1">{t("registration")}</h1>
 
           <input
             type="text"
             name="firstName"
             value={formData.firstName}
-            placeholder="First Name"
+            placeholder={t("first name")}
             onChange={handleInputChange}
             className="input-field"
           />
@@ -121,7 +124,7 @@ export default function Register({ onClose, openLogin }) {
             type="text"
             name="lastName"
             value={formData.lastName}
-            placeholder="Last Name"
+            placeholder={t("last name")}
             onChange={handleInputChange}
             className="input-field"
           />
@@ -139,7 +142,7 @@ export default function Register({ onClose, openLogin }) {
             type="password"
             name="password"
             value={formData.password}
-            placeholder="Password"
+            placeholder={t("password")}
             onChange={handleInputChange}
             className="input-field"
           />
@@ -148,7 +151,7 @@ export default function Register({ onClose, openLogin }) {
             type="password"
             name="confirmPassword"
             value={formData.confirmPassword}
-            placeholder="Confirm Password"
+            placeholder={t("confirm")}
             onChange={handleInputChange}
             className="input-field"
           />
@@ -160,7 +163,7 @@ export default function Register({ onClose, openLogin }) {
             onClick={handleSubmit}
             disabled={isLoading}
           >
-            {isLoading ? "Loading..." : "Register"}
+            {t("register")}
           </button>
 
           <button
@@ -170,7 +173,7 @@ export default function Register({ onClose, openLogin }) {
               openLogin();
             }}
           >
-            Already have account? Login
+            {t("already have")}
           </button>
         </div>
       </div>

@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Login.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Login({ onClose, openRegister, onLoginSuccess }) {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -76,7 +79,7 @@ export default function Login({ onClose, openRegister, onLoginSuccess }) {
     <div className="modal-overlay">
       <div className="modal-window">
         <div className="modal-window-container">
-          <h1>Login</h1>
+          <h1 className="head2">{t("login")}</h1>
           <input
             type="email"
             name="email"
@@ -89,12 +92,12 @@ export default function Login({ onClose, openRegister, onLoginSuccess }) {
             type="password"
             name="password"
             value={formData.password}
-            placeholder="Password"
+            placeholder={t("password")}
             onChange={handleInputChange}
           />
 
           <button className="to-register-button" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? "Loading..." : "Login"}
+            {t("log")}
           </button>
 
           <button
@@ -104,7 +107,7 @@ export default function Login({ onClose, openRegister, onLoginSuccess }) {
               openRegister();
             }}
           >
-            Don't have an account? Register
+            {t("don't have")}
           </button>
         </div>
       </div>

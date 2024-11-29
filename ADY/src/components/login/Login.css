@@ -12,6 +12,13 @@
   overflow: hidden;
 }
 
+
+.head2{
+  font-weight: bold;
+  font-size: 23px;
+  
+  }
+
 .modal-window {
   background: #fefefe;
   border-radius: 16px;
