@@ -1,5 +1,4 @@
-﻿
-using ADY.API.Models;
+﻿using ADY.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +15,6 @@ namespace ADY.API.Controllers
             _dbContext = dbContext;
         }
 
-      
         [HttpPost]
         [Route("Create")]
         public async Task<IActionResult> CreateTicket([FromBody] Ticket ticket)
@@ -58,7 +56,6 @@ namespace ADY.API.Controllers
             return Ok(ticket);
         }
 
-
         [HttpGet]
         [Route("User/{userId}")]
         public async Task<IActionResult> GetTicketsByUserId(int userId)
@@ -75,7 +72,27 @@ namespace ADY.API.Controllers
             return Ok(tickets);
         }
 
-    
+        [HttpGet]
+        [Route("All")]
+        public async Task<IActionResult> GetAllTickets()
+        {
+            try
+            {
+                var tickets = await _dbContext.Tickets.ToListAsync();
+
+                if (!tickets.Any())
+                {
+                    return NotFound(new { Message = "No tickets found" });
+                }
+
+                return Ok(tickets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while retrieving the tickets", Error = ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("Update/{ticketId}")]
         public async Task<IActionResult> UpdateTicket(int ticketId, [FromBody] Ticket updatedTicket)
@@ -89,7 +106,6 @@ namespace ADY.API.Controllers
 
             try
             {
-               
                 existingTicket.FullName = updatedTicket.FullName;
                 existingTicket.Email = updatedTicket.Email;
                 existingTicket.From = updatedTicket.From;
@@ -108,7 +124,6 @@ namespace ADY.API.Controllers
                 return StatusCode(500, new { Message = "An error occurred while updating the ticket", Error = ex.Message });
             }
         }
-
 
         [HttpDelete]
         [Route("Delete/{ticketId}")]

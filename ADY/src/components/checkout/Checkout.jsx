@@ -8,7 +8,6 @@ const Checkout = () => {
   const { trip, totalPrice, updateTrip } = useTrip();
   const { t } = useTranslation();
   const [emailSent, setEmailSent] = useState(false);
-  const [seatsBooked, setSeatsBooked] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [emailSentMessage, setEmailSentMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -34,7 +33,7 @@ const Checkout = () => {
 
   const sendEmailAndSaveTicket = async (fullname, email, phone) => {
     try {
-     
+    
       const ticketResponse = await axios.post(
         "https://localhost:7261/api/Tickets/Create",
         {
@@ -44,7 +43,7 @@ const Checkout = () => {
           to: trip.to,
           date: trip.date,
           time: trip.time,
-          seats: trip.seats.join(", "), 
+          seats: trip.seats.join(", "),
           totalPrice: totalPrice,
           userId: 1,
         }
@@ -52,7 +51,7 @@ const Checkout = () => {
 
       console.log("Ticket saved:", ticketResponse.data);
 
-     
+      
       const emailResponse = await axios.post("http://localhost:5000/send-email", {
         fullname,
         email,
@@ -63,6 +62,7 @@ const Checkout = () => {
 
       console.log("Email sent:", emailResponse.data);
 
+    
       setEmailSent(true);
       setEmailSentMessage(t("Email sent and ticket saved successfully!"));
       setTimeout(() => {
@@ -80,14 +80,13 @@ const Checkout = () => {
     const email = e.target.email.value;
     const phone = e.target.phone.value;
 
-    sendEmailAndSaveTicket(fullname, email, phone);
-  };
-
-  const handleBookSeats = () => {
     updateTrip("bookedSeats", trip.seats);
     localStorage.setItem("bookedSeats", JSON.stringify(trip.seats));
-    setSeatsBooked(true);
     setSuccessMessage(t("Seats have been booked!"));
+
+  
+    sendEmailAndSaveTicket(fullname, email, phone);
+
     setTimeout(() => {
       setSuccessMessage("");
     }, 3000);
@@ -154,7 +153,6 @@ const Checkout = () => {
 
             <button
               type="submit"
-              disabled={!seatsBooked}
               className="w-full px-8 h-12 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]"
             >
               {t("buy ticked")}
@@ -204,49 +202,44 @@ const Checkout = () => {
                     {t("selected seats")}
                   </h6>
                   {trip.seats?.length > 0 ? (
-                    <div className="grid grid-cols-6 gap-3">
-                      {trip.seats.map((seat) => (
-                        <div
-                          key={seat}
-                          className="py-2 px-2 flex items-center justify-center bg-[#1d5c87] text-neutral-100 text-sm font-medium rounded-md"
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {trip.seats.map((seat, index) => (
+                        <span
+                          key={index}
+                          className="bg-neutral-300 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-300 px-3 py-1.5 rounded-full text-sm font-medium"
                         >
                           {seat}
-                        </div>
+                        </span>
                       ))}
                     </div>
                   ) : (
-                    <div className="flex items-center justify-center">
-                      <span className="text-neutral-500 dark:text-neutral-300">
-                        {t("No seats selected")}
-                      </span>
+                    <div className="text-neutral-400">
+                      {t("No seats selected.")}
                     </div>
                   )}
                 </div>
               </div>
-              <div className="w-full flex justify-center items-center">
-                {!seatsBooked ? (
-                  <button
-                    onClick={handleBookSeats}
-                    className="w-full px-8 h-12 bg-[#1d5c87] text-neutral-50 text-base font-normal rounded-md flex items-center justify-center gap-x-2 transform transition-all duration-300 hover:scale-105 hover:bg-[#1d5c87]"
-                  >
-                    {t("book seats")}
-                  </button>
-                ) : (
-                  <div className="text-green-500 font-semibold">
-                    {successMessage}
-                  </div>
-                )}
+              <div className="w-full flex items-center gap-x-3">
+                <h6 className="text-base text-neutral-700 dark:text-neutral-200 font-medium">
+                  {t("Total Price:")}
+                </h6>
+                <div className="text-base font-medium text-neutral-900 dark:text-neutral-100">
+                  {totalPrice} AZN
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
       {emailSentMessage && (
-        <div className="text-center text-green-500 mt-4">{emailSentMessage}</div>
+        <div className="fixed bottom-10 left-10 bg-green-600 text-white py-2 px-4 rounded-md">
+          {emailSentMessage}
+        </div>
       )}
       {errorMessage && (
-        <div className="text-center text-red-500 mt-4">{errorMessage}</div>
+        <div className="fixed bottom-10 left-10 bg-red-600 text-white py-2 px-4 rounded-md">
+          {errorMessage}
+        </div>
       )}
     </div>
   );
