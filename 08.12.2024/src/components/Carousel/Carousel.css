@@ -1,0 +1,54 @@
+.brand-carousel-container {
+  overflow: hidden;
+  padding: 60px 0;
+  margin: 20px auto;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+  max-width: 1450px;
+}
+
+
+.brand-carousel-container::before,
+.brand-carousel-container::after {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: "";
+  z-index: 2;
+}
+
+
+.brand-carousel-container::before {
+  left: 0;
+
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+}
+
+.brand-carousel-container::after {
+  right: 0;
+
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+}
+
+
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.brand-carousel-slides {
+  display: inline-block;
+  animation: 30s slide infinite linear;
+}
+
+.brand-carousel-slides img {
+  height: 170px;
+  margin: 0 40px;
+}

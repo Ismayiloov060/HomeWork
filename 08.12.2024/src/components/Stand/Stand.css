@@ -1,0 +1,65 @@
+.arrivals-carousel-container {
+    margin: 70px auto;
+    max-width: 1500px;
+    padding: 0 20px;
+  }
+  
+  .arrivals-carousel {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .arrivals-carousel-left-side,
+  .arrivals-carousel-right-side {
+    flex: 1;
+  }
+  
+  .arrivals-carousel-left-side {
+    padding-right: 20px;
+  }
+  
+  .arrivals-carousel-right-side {
+    padding-left: 20px;
+  }
+  
+  .arrivals-text {
+    padding: 180px;
+  }
+  
+  h1 {
+    font-size: 2.375rem;
+    font-weight: 700;
+  }
+  
+  p {
+    margin-top: 50px;
+    font-size: 1.375rem;
+    font-weight: 500;
+    color: #444;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1.5;
+  }
+  
+  label {
+    display: inline-block;
+    background-color: rgb(82, 211, 82);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .arrivals-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  
+  

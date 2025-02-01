@@ -1,0 +1,16 @@
+.catalog-container {
+    height: auto;
+
+}
+ 
+
+.filter-list-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 30px;
+}
+
+.all-shoes-p {
+    padding-left: 5%;
+}
