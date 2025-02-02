@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ady
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  ady
+  template:
+    metadata:
+      labels:
+        app:  ady
+    spec:
+      containers:
+        - name:  ady
+          image: k8s-minikube/kicbase:v0.0.46
+          imagePullPolicy: IfNotPresent  
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name:  abc-123
+spec:
+  type: NodePort
+  selector:
+    app:  ady
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000 
